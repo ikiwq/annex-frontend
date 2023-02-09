@@ -1,0 +1,20 @@
+<div class="search-bar">
+    <div class="">
+        <form class="flex relative items-center justify-center" [formGroup]="inputGroup" (submit)="goToSearchPage()" #searchInput>
+            <input [formControlName]="'mainInput'" class="search-input px-5 py-2 rounded-full" type="text" placeholder="Search anything!" (input)="searchUser($event)" (focus)="showList()"/>
+            <button class="text-white flex items-center justify-center absolute right-1 accent-color-background rounded-full px-1 py-1">
+                <mat-icon>search</mat-icon>
+            </button>
+        </form>
+        <div #searchMenu class="profile-search-container hidden fixed top-16 w-64 rounded-sm flex-col py-2">
+            <div class="flex items-center justify-center py-10 w-full" *ngIf="isLoading">
+                <app-loading></app-loading>
+            </div>
+            <div class="flex flex-col" *ngIf="!isLoading">
+                <tr (click)="hideList()" *ngFor="let user of UserList | async">
+                    <app-profile-card [profile]="user"></app-profile-card>
+                </tr>
+            </div>
+        </div>
+    </div>
+</div>

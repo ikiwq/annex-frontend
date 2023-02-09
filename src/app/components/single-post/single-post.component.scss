@@ -1,0 +1,82 @@
+.post{
+    cursor: pointer;
+    transition: all;
+    transition-duration: 300ms;
+    &:hover{
+        background-color: rgba($color: #ffffff, $alpha: 0.10);
+    }
+}
+
+.like-container{
+    transition: all;
+    transition-duration: 300ms;
+    &:hover{
+        color: rgba($color: #ff2e2e, $alpha: 1);
+    }
+}
+
+.like{
+    transition: all;
+    transition-duration: 300ms;
+    background-color: rgba($color: #ff2e2e, $alpha: 0.0);
+    &:hover{
+        background-color: rgba($color: #ff2e2e, $alpha: 0.2);
+    }
+}
+
+.reply-container{
+    transition: all;
+    transition-duration: 300ms;
+    &:hover{
+        color: rgba($color: #00b3ff, $alpha: 1);
+    }
+}
+
+.reply{
+    transition: all;
+    transition-duration: 300ms;
+    border-radius: 100%;
+    background-color: rgba($color: #00b3ff, $alpha: 0.0);
+    &:hover{
+        background-color: rgba($color: #00b3ff, $alpha: 0.2);
+    }
+}
+
+.reply-container{
+    transition: all;
+    transition-duration: 300ms;
+    &:hover{
+        color: rgba($color: #00b3ff, $alpha: 1);
+    }
+}
+
+.reply{
+    transition: all;
+    transition-duration: 300ms;
+    border-radius: 100%;
+    background-color: rgba($color: #00b3ff, $alpha: 0.0);
+    &:hover{
+        background-color: rgba($color: #00b3ff, $alpha: 0.2);
+    }
+}
+
+.save-container{
+    transition: all;
+    transition-duration: 300ms;
+    &:hover{
+        color: rgb(234 179 8);
+    }
+}
+
+.save{
+    transition: all;
+    transition-duration: 300ms;
+    border-radius: 100%;
+    &:hover{
+        background-color: rgba(234, 179, 8, 0.2);
+    }
+}
+
+app-single-post{
+    display: block;
+}

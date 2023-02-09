@@ -1,0 +1,19 @@
+<div class="relative">
+    <div class="relative flex cursor-pointer" #notificationIcon>
+        <div *ngIf="newNotifications" class="absolute w-3 h-3 accent-color-background rounded-full right-0 z-10">
+        </div>
+        <mat-icon class="scale-100 text-neutral-400" (click)="toggleList()">notifications</mat-icon>
+    </div>
+    <div #notificationMenu class="absolute hidden profile-search-container top-10 -left-3 flex-col w-60 max-h-60 overflow-x-hidden">
+        <tr *ngFor="let notification of notificationList | async" class="z-10 flex items-center justify-center">
+            <div class="flex gap-2 section-smooth py-1 rounded-md cursor-pointer px-1 items-center justify-center" [routerLink]="[notification.toUrl]">
+                <div class="w-14 h-14 flex-shrink-0">
+                    <img [src]="notification.imageUrl" class="w-14 h-14 object-cover rounded-full">
+                </div>
+                <div class="flex flex-col items-start text-sm">
+                    <p class="font-semibold break-words">{{notification.text}}</p>
+                </div>
+            </div>
+        </tr>
+    </div>
+</div>

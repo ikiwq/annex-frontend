@@ -1,0 +1,9 @@
+<div class="flex flex-col w-full gap-4">
+    <app-loading class="mt-16" *ngIf="isLoading"></app-loading>
+    <div *ngIf="!isLoading">
+        <app-posts class="" [postList]="postList"></app-posts>
+    </div>
+    <div class="relative">
+        <app-observer (inView)="getPostPage()" class="absolute -top-40"></app-observer>
+    </div>
+</div>  

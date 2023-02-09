@@ -1,0 +1,7 @@
+<div [ngClass]="darkMode ? 'dark' : 'light'"  class="body min-h-screen">
+  <app-header></app-header>
+  <div class="pb-14 md:pb-0 overflow-x-hidden md:overflow-x-visible md:px-2 xl:px-0">
+    <router-outlet></router-outlet>
+  </div>
+  <app-mobile-menu class="flex md:hidden fixed bottom-0 z-10 w-screen"></app-mobile-menu>
+</div>
