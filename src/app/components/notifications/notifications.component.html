@@ -5,6 +5,9 @@
         <mat-icon class="scale-100 text-neutral-400" (click)="toggleList()">notifications</mat-icon>
     </div>
     <div #notificationMenu class="absolute hidden profile-search-container top-10 -left-3 flex-col w-60 max-h-60 overflow-x-hidden">
+        <div *ngIf="notificationList.value.length == 0">
+            <p class="px-2 py-2 font-semibold">You don't have any notifications yet!</p>
+        </div>
         <tr *ngFor="let notification of notificationList | async" class="z-10 flex items-center justify-center">
             <div class="flex gap-2 section-smooth py-1 rounded-md cursor-pointer px-1 items-center justify-center" [routerLink]="[notification.toUrl]">
                 <div class="w-14 h-14 flex-shrink-0">
