@@ -71,7 +71,7 @@
                     <span>{{post.saveCount}}</span>
                 </div>
             </div>
-            <div class="flex justify-center items-center gap-2 share-container relative hover:cursor-pointer">
+            <div class="flex justify-center items-center gap-2 share-container relative hover:cursor-pointer" (click)="copyLinkToClipboard($event)">
                 <div class="relative flex items-center justify-center">
                     <div class="p-5 share absolute rounded-full"></div>
                     <mat-icon class="cursor-pointer">share</mat-icon>

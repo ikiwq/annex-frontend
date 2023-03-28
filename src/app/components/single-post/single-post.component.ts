@@ -4,6 +4,7 @@ import { Router} from '@angular/router';
 import { PostModel } from 'src/app/models/post-model';
 import { SharedService } from 'src/app/services/auth/shared/shared.service';
 import { PostService } from 'src/app/services/post/post.service';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-single-post',
@@ -119,6 +120,11 @@ export class SinglePostComponent implements OnInit {
 
   goToCreator(event : Event) : void{
     this.router.navigate([`/profile/${this.post.creator}`]);
+    event.stopPropagation();
+  }
+
+  copyLinkToClipboard(event : Event) : void {
+    navigator.clipboard.writeText(environment.frontendUrl + "/post/" + this.post.id);
     event.stopPropagation();
   }
 
