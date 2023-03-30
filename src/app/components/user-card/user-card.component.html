@@ -1,7 +1,7 @@
 <div class="flex flex-col" *ngIf="currentProfile">
     <div class="mt-2 profile-card ">
         <div>
-            <div *ngIf="!currentProfile?.backgroundPicture" class="h-32 bg-gradient-to-r from-blue-500 to-blue-700"></div>
+            <div *ngIf="!currentProfile?.backgroundPicture" class="h-32 bg-gradient-to-r" [ngClass]="isDarkMode ? 'from-green-500 to-green-700' : 'from-blue-500 to-blue-700'"></div>
             <div *ngIf="currentProfile?.backgroundPicture" class="h-32" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url(' + currentProfile?.backgroundPicture + ')'"></div>
         </div>
         <div class="relative px-2">

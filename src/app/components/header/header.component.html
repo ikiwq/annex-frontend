@@ -22,7 +22,7 @@
                 </div>
                 <div class="header-menu hidden transition-all duration-300 flex-col absolute top-14 bg-opacity-80 backdrop-blur-sm w-80 rounded-md shadow-neutral-900 shadow-sm mr-1" #menu id="menu">
                     <div *ngIf="user?.backgroundPicture" class="h-32 rounded-t-md" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="' url(' + user?.backgroundPicture + ')'"></div>
-                    <div *ngIf="!user?.backgroundPicture" class="h-32 rounded-t-md bg-gradient-to-r from-green-500 to-green-700"></div>
+                    <div *ngIf="!user?.backgroundPicture" [ngClass]="isDarkMode ? 'from-green-500 to-green-700' : 'from-blue-500 to-blue-700'" class="h-32 rounded-t-md bg-gradient-to-r"></div>
                     <div class="px-4">
                         <div class="relative flex justify-center items-center gap-2 py-2 border-b border-neutral-500 cursor-pointer" routerLink='/profile/{{user.username}}' (click)="closeMenu()">
                             <img class="absolute h-16 w-16 rounded-full object-cover -top-8" src='{{user?.profilePicture}}'/>

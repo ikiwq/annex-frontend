@@ -7,6 +7,7 @@ import { PostService } from 'src/app/services/post/post.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserForm } from 'src/app/models/user-form';
 import { FollowService } from 'src/app/services/follow/follow.service';
+import { DarkModeServiceService } from 'src/app/services/darkModeService/dark-mode-service.service';
 
 @Component({
   selector: 'app-profile',
@@ -14,6 +15,7 @@ import { FollowService } from 'src/app/services/follow/follow.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  public isDarkMode : Boolean;
   public isLoading : Boolean = false;
 
   public user : userModel;
@@ -36,11 +38,11 @@ export class ProfileComponent implements OnInit {
   })
 
   constructor(private userService : UserService, private activatedRoute : ActivatedRoute, private router: Router, private sharedService : SharedService,
-    private postService : PostService, private followService : FollowService) { }
+    private DMService : DarkModeServiceService, private followService : FollowService) { }
 
   ngOnInit(): void {
     this.isEditing = false;
-
+    this.DMService.getDarkMode().subscribe((bool)=>this.isDarkMode = bool);
     this.activatedRoute.params.subscribe( (params) => {
       let username = params["username"];
       this.userService.getUserProfile(username).subscribe((newProf)=>{
