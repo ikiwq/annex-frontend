@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class DarkModeServiceService {
+export class DarkModeService {
   darkMode = new BehaviorSubject<Boolean>(true);
 
   constructor() { }

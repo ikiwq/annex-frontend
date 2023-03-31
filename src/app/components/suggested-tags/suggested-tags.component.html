@@ -1,0 +1,13 @@
+<div class="flex flex-col my-2 py-4 px-2 post-card" *ngIf="tagList.getValue().length > 0">
+    <p class="pb-1 font-semibold text-xl">Popular tags</p>
+    <div class="flex flex-col">
+        <tr *ngFor="let tag of tagList | async">
+            <div class="w-full py-2 px-2 flex flex-col" [routerLink]="['/search/', tag.name]">
+                <p class="font-bold tag-text text-md">{{tag.name}}</p>
+                <div class="font-light text-sm">
+                    <p>{{tag.postNumber}} posts</p>
+                </div>
+            </div>
+        </tr>
+    </div> 
+</div>

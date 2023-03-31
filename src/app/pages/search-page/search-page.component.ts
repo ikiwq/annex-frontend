@@ -11,7 +11,7 @@ import { PostService } from 'src/app/services/post/post.service';
 })
 export class SearchPageComponent implements OnInit {
 
-  openedAt : string = new Date().toUTCString();
+  openedAt : Date = new Date();
   isLoading : Boolean = false;
 
   postList = new BehaviorSubject<PostModel[]>([]);
@@ -24,7 +24,7 @@ export class SearchPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params)=>{
-      this.openedAt = new Date().toUTCString();
+      this.openedAt = new Date();
       this.search = params["search"];
       
       this.postService.getLoading().subscribe((bool)=>this.isLoading = bool);
@@ -36,7 +36,7 @@ export class SearchPageComponent implements OnInit {
 
   getPostPage() : void {
     if (this.isLoading) return ;
-    this.postService.getPostByTextPage(this.search, this.openedAt);
+    this.postService.getPostByTextPage(this.search, this.openedAt.toString());
   }
 
 }

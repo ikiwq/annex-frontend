@@ -30,13 +30,13 @@ import { UserLikedComponent } from './components/user-liked/user-liked.component
 import { UserSavedComponent } from './components/user-saved/user-saved.component';
 import { HelpSectionComponent } from './pages/help-section/help-section.component';
 import { MentionComponent } from './components/mention/mention.component';
-import { TagPageComponent } from './components/tag-page/tag-page.component';
 import { HomePostComponent } from './components/home-post/home-post.component';
 import { SearchComponent } from './components/search/search.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { MobileMenuComponent } from './components/mobile-menu/mobile-menu.component';
 import { MobileSearchComponent } from './pages/mobile-search/mobile-search.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { SuggestedTagsComponent } from './components/suggested-tags/suggested-tags.component';
 
 @NgModule({
   declarations: [
@@ -63,13 +63,13 @@ import { NotificationsComponent } from './components/notifications/notifications
     UserSavedComponent,
     HelpSectionComponent,
     MentionComponent,
-    TagPageComponent,
     HomePostComponent,
     SearchComponent,
     SearchPageComponent,
     MobileMenuComponent,
     MobileSearchComponent,
     NotificationsComponent,
+    SuggestedTagsComponent,
   ],
   imports: [
     BrowserModule,

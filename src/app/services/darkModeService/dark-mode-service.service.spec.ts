@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DarkModeServiceService } from './dark-mode-service.service';
+import { DarkModeServiceService } from './dark-mode.service';
 
 describe('DarkModeServiceService', () => {
   let service: DarkModeServiceService;

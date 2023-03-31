@@ -13,13 +13,11 @@ import { TagService } from 'src/app/services/tag/tag.service';
 export class LateralHomebarComponent implements OnInit {
 
   public suggestedList = new BehaviorSubject<userModel[]>([]);
-  public tagList = new BehaviorSubject<TagModel[]>([]);
 
   constructor(private userService : UserService, private tagService : TagService) { }
   
   ngOnInit(): void {
     this.userService.getSuggestedProfiles().subscribe((profiles)=> this.suggestedList.next(profiles));
-    this.tagService.getPopular().subscribe((tags)=> this.tagList.next(tags));
   }
 
 }

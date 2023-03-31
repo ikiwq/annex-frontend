@@ -260,9 +260,14 @@
 
 .tag-class{
     background-color: var(--color-bg-third);
+    
+}
+
+.tag-text{
     cursor: pointer;
     &:hover{
         text-decoration: underline;
+        color: var(--color-accent);
     }
 }
 
@@ -277,19 +282,6 @@
     background-color: var(--color-bg-third);
     box-shadow: 0px 1px 10px 2px var(--color-shadow-primary);
     color: var(--primary-text);
-}
-
-.profile-search-container::after{
-    background-color: var(--color-bg-third);
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    bottom: 100%;
-    left: 10%;
-    margin-left: -7px;
-    margin-bottom: -7px;
-    content: '';
-    transform: rotate(45deg);
 }
 
 .active-icon{
@@ -324,3 +316,9 @@
     color: red;
 }
 
+.section-smooth-secondary{
+    transition-duration: 200ms;
+    &:hover{
+        background-color: var(--color-bg-secondary);
+    }
+}

@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable } from 'rxjs';
 import { SharedService } from './services/auth/shared/shared.service';
-import { DarkModeServiceService } from './services/darkModeService/dark-mode-service.service';
+import { DarkModeService} from './services/darkModeService/dark-mode.service';
 import { PostService } from './services/post/post.service';
 import { UserService } from './services/user/user.service';
 
@@ -16,7 +15,7 @@ export class AppComponent implements OnInit{
 
   darkMode : Boolean;
 
-  constructor(private darkModeService : DarkModeServiceService, private authService : SharedService, 
+  constructor(private darkModeService : DarkModeService, private authService : SharedService, 
     private postService : PostService, private userService : UserService){
 
   }

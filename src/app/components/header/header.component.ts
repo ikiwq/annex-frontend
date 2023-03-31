@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SharedService } from 'src/app/services/auth/shared/shared.service';
-import { DarkModeServiceService } from 'src/app/services/darkModeService/dark-mode-service.service';
+import { DarkModeService } from 'src/app/services/darkModeService/dark-mode.service';
 
 @Component({
   selector: 'app-header',
@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  constructor(private sharedService : SharedService, private darkModeService : DarkModeServiceService) { 
+  constructor(private sharedService : SharedService, private darkModeService : DarkModeService) { 
   }
 
   ngOnInit(): void {

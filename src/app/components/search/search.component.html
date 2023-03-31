@@ -6,13 +6,18 @@
                 <mat-icon>search</mat-icon>
             </button>
         </form>
-        <div #searchMenu class="profile-search-container hidden fixed top-16 w-64 rounded-sm flex-col py-2">
+        <div #searchMenu class="profile-search-container hidden fixed top-12 w-64 rounded-sm flex-col">
+            <div *ngIf="!isLoading && UserList.value.length <= 0" class="py-2">
+                <p class="text-center">Type in something</p>
+            </div>
             <div class="flex items-center justify-center py-10 w-full" *ngIf="isLoading">
                 <app-loading></app-loading>
             </div>
             <div class="flex flex-col" *ngIf="!isLoading">
                 <tr (click)="hideList()" *ngFor="let user of UserList | async">
-                    <app-profile-card [profile]="user"></app-profile-card>
+                    <div class="section-smooth-secondary px-2">
+                        <app-profile-card [profile]="user"></app-profile-card>
+                    </div>
                 </tr>
             </div>
         </div>

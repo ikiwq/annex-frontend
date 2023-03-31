@@ -14,11 +14,13 @@
         </ng-template>
         <div *ngIf="user != null; else loginContent" class="flex items-center justify-center gap-2">
             <app-notifications></app-notifications>
-            <div class="header-profile flex items-center justify-end gap-4 relative px-1 py-1 rounded-full">
+            <div class="header-profile flex items-center justify-end gap-4 relative md:px-1 md:py-1 rounded-full">
                 <div class="cursor-pointer flex items-center justify-center gap-2" (click)="toggleMenu()" #profilePic>
-                    <div><div class="h-9 w-9 rounded-full profile-image-no-shadow" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url(' + user?.profilePicture + ')'"></div></div>
-                    <p class="text-md">{{user?.username}}</p>
-                    <mat-icon class="transition-all duration-300" [ngClass]="isMenuShown && 'rotate-180'">expand_more</mat-icon>
+                    <div class="h-11 w-11 md:h-10 md:w-10 rounded-full profile-image-no-shadow" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url(' + user?.profilePicture + ')'"></div>
+                    <div class="hidden md:flex justify-center items-center">
+                        <p class="text-md">{{user?.username}}</p>
+                        <mat-icon class="transition-all duration-300" [ngClass]="isMenuShown && 'rotate-180'">expand_more</mat-icon>
+                    </div>
                 </div>
                 <div class="header-menu hidden transition-all duration-300 flex-col absolute top-14 bg-opacity-80 backdrop-blur-sm w-80 rounded-md shadow-neutral-900 shadow-sm mr-1" #menu id="menu">
                     <div *ngIf="user?.backgroundPicture" class="h-32 rounded-t-md" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="' url(' + user?.backgroundPicture + ')'"></div>

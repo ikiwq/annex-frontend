@@ -1,5 +1,7 @@
-<div class="flex flex-col w-full gap-4">
-    <app-post-form></app-post-form>
+<div class="flex flex-col w-full gap-2">
+    <div *ngIf="currentUser">
+        <app-post-form></app-post-form>
+    </div>
     <app-posts class="" [postList]="postList"></app-posts>
     <div class="relative">
         <app-observer (inView)="requestPostPage()" class="absolute -top-40"></app-observer>

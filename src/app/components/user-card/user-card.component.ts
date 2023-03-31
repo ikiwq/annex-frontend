@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/services/auth/shared/shared.service';
-import { DarkModeServiceService } from 'src/app/services/darkModeService/dark-mode-service.service';
+import { DarkModeService } from 'src/app/services/darkModeService/dark-mode.service';
 
 @Component({
   selector: 'app-user-card',
@@ -12,7 +12,7 @@ export class UserCardComponent implements OnInit {
   public currentProfile : any;
   public isDarkMode : Boolean;
 
-  constructor(private sharedService : SharedService, private DMService : DarkModeServiceService) { 
+  constructor(private sharedService : SharedService, private DMService : DarkModeService) { 
     this.sharedService.getCurrentUser().subscribe((profile)=>{this.currentProfile = profile;});
   }
 

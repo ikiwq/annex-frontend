@@ -9,7 +9,6 @@ import { UserPostsComponent } from './components/user-posts/user-posts.component
 import { UserLikedComponent } from './components/user-liked/user-liked.component';
 import { UserSavedComponent } from './components/user-saved/user-saved.component';
 import { HelpSectionComponent } from './pages/help-section/help-section.component';
-import { TagPageComponent } from './components/tag-page/tag-page.component';
 import { HomePostComponent } from './components/home-post/home-post.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { MobileSearchComponent } from './pages/mobile-search/mobile-search.component';
@@ -20,7 +19,6 @@ const routes: Routes = [
   {path: '', component: HomeComponent,
     children:[
       {path: '', component: HomePostComponent},
-      {path: 'tag/:tag', component: TagPageComponent},
       {path: "search/:search", component: SearchPageComponent},
       {path: "mobile-search", component: MobileSearchComponent}
     ]},

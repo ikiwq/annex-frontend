@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Route, Router, RouterEvent } from '@angular/router';
+import { BehaviorSubject, every } from 'rxjs';
 import { userModel } from 'src/app/models/user-model';
 import { SearchService } from 'src/app/services/search/search.service';
 
@@ -34,10 +34,13 @@ export class SearchComponent implements OnInit {
     mainInput: new FormControl('', [Validators.minLength(0), Validators.maxLength(32)])
   })
 
-  constructor(private searchService: SearchService, private router : Router) { }
+  constructor(private searchService: SearchService, private router : Router, private activatedRoute : ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.searchService.getLoadingUsers().subscribe((bool)=> this.isLoading = bool)
+    this.searchService.getLoadingUsers().subscribe((bool)=> this.isLoading = bool);
+    this.activatedRoute.params.subscribe((params)=>{
+      console.log(params);
+    })
   }
 
   hideList(){

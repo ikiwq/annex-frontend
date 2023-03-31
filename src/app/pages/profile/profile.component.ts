@@ -7,7 +7,7 @@ import { PostService } from 'src/app/services/post/post.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserForm } from 'src/app/models/user-form';
 import { FollowService } from 'src/app/services/follow/follow.service';
-import { DarkModeServiceService } from 'src/app/services/darkModeService/dark-mode-service.service';
+import { DarkModeService } from 'src/app/services/darkModeService/dark-mode.service';
 
 @Component({
   selector: 'app-profile',
@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
   })
 
   constructor(private userService : UserService, private activatedRoute : ActivatedRoute, private router: Router, private sharedService : SharedService,
-    private DMService : DarkModeServiceService, private followService : FollowService) { }
+    private DMService : DarkModeService, private followService : FollowService) { }
 
   ngOnInit(): void {
     this.isEditing = false;

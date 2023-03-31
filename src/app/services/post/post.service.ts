@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PostModel } from 'src/app/models/post-model';
 import { postRequest } from 'src/app/models/post-request';
+import { SearchRequest } from 'src/app/models/search-request.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -173,28 +174,17 @@ export class PostService {
     return this.postList;
   }
 
-  retrieveTagPage(tag : string, startingDate : string){
-    this.isLoading.next(true);
-
-    this.tagPosts.next([]);
-    this.tagPage = 0;
-
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/page/${this.tagPage}?startingDate=${startingDate}&tag=${tag}`)
-      .subscribe({
-        next: (tagged) => { this.tagPosts.next([...this.tagPosts.value, ...tagged]); this.tagPage += 1; },
-        complete: () => this.isLoading.next(false)
-      })
-  }
-
-  getTagPage(){
-    this.postList = this.tagPosts;
-    return this.postList;
-  }
-
-  retrievePostByText(text : string, startDate : string){
+  retrievePostByText(text : string, startDate : Date){
     this.searchListPage = 0;
     this.searchList.next([]);
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/search/post/${text}?startDate=${startDate}&page=${this.searchListPage}`).subscribe({
+
+    let searchRequest = new SearchRequest();
+
+    searchRequest.page = this.searchListPage;
+    searchRequest.text = text;
+    searchRequest.startDate = startDate;
+
+    this.httpClient.post<PostModel[]>(`${environment.apiURL}/api/search/post/`, searchRequest).subscribe({
       next: (posts) => { this.searchList.next([...posts]) }
     });
   }
