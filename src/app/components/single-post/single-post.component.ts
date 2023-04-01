@@ -123,8 +123,11 @@ export class SinglePostComponent implements OnInit {
     event.stopPropagation();
   }
 
-  copyLinkToClipboard(event : Event) : void {
-    navigator.clipboard.writeText(environment.frontendUrl + "/post/" + this.post.id);
+  share(event : Event) : void {
+    navigator.share({
+      text: "Share this post!",
+      url: environment.frontendUrl + "/post/" + this.post.id
+    });
     event.stopPropagation();
   }
 
