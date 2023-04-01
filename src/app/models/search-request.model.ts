@@ -1,5 +1,5 @@
 export class SearchRequest{
     text: String;
-    startDate : Date;
-    page: number;
+    cursor: number;
+    pageSize: number;
 }

@@ -7,7 +7,7 @@
     <div class="w-full md:w-2/3 xl:w-1/2 pb-32">
         <div class="mt-16 flex flex-col gap-2 md:gap-4">
             <app-single-post [post]="mainPost" *ngIf="mainPost"></app-single-post>
-            <app-post-form [id]="id"></app-post-form>
+            <app-post-form [id]="id" *ngIf="isLogged"></app-post-form>
             <app-posts [postList]="replies" *ngIf="replies"></app-posts>
         </div>
         <app-observer (inView)="requestReplyPage()"></app-observer>

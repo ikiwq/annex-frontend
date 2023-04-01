@@ -11,7 +11,6 @@ export class DarkModeService {
 
   initDarkMode() {
     let darkMode : string | null = localStorage.getItem("darkMode");
-    console.log(darkMode)
     if(darkMode == null){
       if(window.matchMedia && window.matchMedia("(prefers-color-scheme:dark)").matches){
         this.darkMode.next(true);

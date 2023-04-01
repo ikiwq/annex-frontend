@@ -85,8 +85,6 @@ export class ProfileComponent implements OnInit {
     editReq.location = this.profileForm.get("location").value;
     editReq.birthday = this.profileForm.get("birthday").value;
 
-    console.log(editReq.birthday)
-
     userForm.append('jsonString', JSON.stringify(editReq));
 
     this.userService.editUserProfile(this.user.username, userForm).subscribe({
@@ -140,7 +138,6 @@ export class ProfileComponent implements OnInit {
   }
 
   followUser() : void {
-    console.log(this.user.username)
     this.followService.followUser(this.user.username).subscribe({
       next: ()=> { 
         if(this.user.followed){

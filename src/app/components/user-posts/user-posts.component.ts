@@ -11,11 +11,7 @@ import { PostService } from 'src/app/services/post/post.service';
 })
 export class UserPostsComponent implements OnInit {
   username : string;
-  page : number = 0;
-
-  openedAt : string = new Date().toUTCString();
   postList = new BehaviorSubject<PostModel[]>([]);
-
   isLoading : Boolean = false;
 
   constructor(private activatedRoute : ActivatedRoute, private postService : PostService) {
@@ -23,9 +19,8 @@ export class UserPostsComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params)=>{
-      this.openedAt = new Date().toUTCString();
       this.username = params["username"];
-      this.postService.retrievePostFromUser(this.username, this.openedAt);
+      this.postService.retrievePostFromUser(this.username);
 
       this.postService.getPostFromUser().subscribe({
         next: (posts) =>{this.postList.next(posts);}
@@ -39,10 +34,7 @@ export class UserPostsComponent implements OnInit {
 
   requestPostPage() : void {
     if(this.isLoading) return ;
-
-    this.page += 1;
-    this.postService.retrievePostFromUser(this.username, this.openedAt);
-    
+    this.postService.retrievePostFromUser(this.username);
   }
 
 }

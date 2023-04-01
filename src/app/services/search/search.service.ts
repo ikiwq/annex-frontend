@@ -24,9 +24,9 @@ export class SearchService {
     return this.isLoadingPosts;
   }
 
-  retrieveUsersByNick(username : string, startDate : string){
+  retrieveUsersByNick(username : string){
     this.isLoadingUsers.next(true);
-    return this.httpClient.get<userModel[]>(`${environment.apiURL}/api/search/user/${username}?startDate=${startDate}`).subscribe({
+    return this.httpClient.get<userModel[]>(`${environment.apiURL}/api/search/user/${username}?pageSize=5`).subscribe({
       next: (profiles) => this.profileList.next(profiles),
       complete: ()=> this.isLoadingUsers.next(false)
     });
@@ -35,6 +35,5 @@ export class SearchService {
   getUsersByNick(){
     return this.profileList;
   }
-
 
 }

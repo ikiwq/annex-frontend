@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
 
     this.sharedService.login(this.loginRequestPayload).subscribe({
       next: (data)=>{ this.sharedService.retrieveUser(); this.router.navigate([`/`]); this.isLoading = false;},
-      error: (err) => {console.log(err.message) ;this.errorMessage = err.message; this.isLoading = false;}
+      error: (err) => {this.errorMessage = err.message; this.isLoading = false;}
     })
 
   }

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { CursorPostsResponse } from 'src/app/models/cursor-posts-response.model';
 import { PostModel } from 'src/app/models/post-model';
 import { postRequest } from 'src/app/models/post-request';
 import { SearchRequest } from 'src/app/models/search-request.model';
@@ -9,9 +10,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class PostService {
-  startingAt : string = new Date().toUTCString();
-
+export class PostService{
   postList = new BehaviorSubject<PostModel[]>([]);
 
   searchList = new BehaviorSubject<PostModel[]>([]);
@@ -22,24 +21,45 @@ export class PostService {
   savedPosts = new BehaviorSubject<PostModel[]>([]);
   tagPosts = new BehaviorSubject<PostModel[]>([]);
   
-  reccomendedPostsPage : number = 0;
-  searchListPage : number = 0;
-  profilePostsPage : number = 0;
-  likedPostsPage : number = 0;
-  savedPostsPage : number = 0;
-  repliesPage : number = 0;
-  tagPage : number = 0;
+  cursors = {
+    reccomended : -1,
+    reply : -1,
+    search : -1,
+    profile : -1,
+    liked : -1,
+    saved : -1
+  }
 
-  savedUser : string = "";
-  likedUser : string = "";
   repliesPostId : string = "";
+  profileUsername : string = "";
+  search : string = "";
 
   isLoading = new BehaviorSubject<Boolean>(true);
 
-  constructor(private httpClient : HttpClient) { }
+  constructor(private httpClient : HttpClient) { 
+
+  }
 
   getLoading(){
     return this.isLoading;
+  }
+
+  resetProfileSaves(username : string) {
+    this.profilePosts.next([]);
+    this.likedPosts.next([]);
+    this.savedPosts.next([]);
+    this.profileUsername = username;
+    this.cursors["liked"] = -1;
+    this.cursors["saved"] = -1;
+    this.cursors["profile"] = -1;
+  }
+
+  resetSearch(text : string){
+    if(this.search != text){
+      this.searchList.next([]);
+      this.search = text;
+      this.cursors["search"] = -1;
+    }
   }
 
   //GET METHODS
@@ -49,15 +69,14 @@ export class PostService {
     return this.httpClient.get(`${environment.apiURL}/api/post/${id}`);
   }
 
-  retrieveReccomendedPosts(startingDate : string = this.startingAt) {
+  retrieveReccomendedPosts() {
     this.isLoading.next(true);
-    console.log(this.startingAt)
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/page/${this.reccomendedPostsPage}?startingDate=${startingDate}`)
+    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/cursor/${this.cursors["reccomended"]}?pageSize=20`)
       .subscribe({
-        next: (newPosts) => { this.reccomendedPosts.next([...this.reccomendedPosts.value, ...newPosts]), this.reccomendedPostsPage += 1 },
+        next: (newPosts) => { this.reccomendedPosts.next([...this.reccomendedPosts.value, ...newPosts]);
+           this.cursors["reccomended"] = this.reccomendedPosts.value[this.reccomendedPosts.value.length - 1].id - 1;},
         complete: ()=> this.isLoading.next(false)
       });
-
   }
 
   getReccomendedPosts(){
@@ -65,30 +84,19 @@ export class PostService {
     return this.postList;
   }
 
-  retrievePostReplies(id : string, date : string){
+  retrievePostReplies(id : string){
     this.isLoading.next(true);
-
     if(id != this.repliesPostId){
       this.repliesPosts.next([]);
       this.repliesPostId = id;
-      this.repliesPage = 0;
+      this.cursors["reply"] = -1;
     }
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/${id}/replies?page=${this.repliesPage}&startingDate=${date}`)
+    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/${id}/reply?cursor=${this.cursors["reply"]}&pageSize=10`)
       .subscribe({
-        next: (replies)=>{ this.repliesPosts.next([...this.repliesPosts.value, ...replies]) ; this.repliesPage += 1},
+        next: (replies)=>{ this.repliesPosts.next([...this.repliesPosts.value, ...replies]);
+        this.cursors["reply"] = this.repliesPosts.value[this.repliesPosts.value.length - 1].id - 1},
         complete: ()=> this.isLoading.next(false)
       });
-  }
-
-  requestRepliesPage(id : string, date : string){
-    this.isLoading.next(true);
-    
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/${id}/replies?page=${this.repliesPage}&startingDate=${date}`)
-      .subscribe({
-        next: (replies)=>{ this.repliesPosts.next([...this.repliesPosts.value, ...replies]) ; this.repliesPage += 1},
-        complete: ()=> this.isLoading.next(false)
-      });
-
   }
 
   getPostReplies(){
@@ -96,20 +104,19 @@ export class PostService {
     return this.postList;
   }
 
-  retrievePostFromUser(username : string, date : string){
+  retrievePostFromUser(username : string){
     this.isLoading.next(true);
 
-    if(this.profilePosts.value.length > 0 && this.profilePosts.value[this.profilePosts.value.length - 1].creator != username) {
-      this.profilePosts.next([]);
-      this.profilePostsPage = 0;
+    if(this.profileUsername != username) {
+      this.resetProfileSaves(username);
     }
 
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/user/${username}/posts?page=${this.profilePostsPage}&startingDate=${date}`)
+    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/user/${username}/posts?cursor=${this.cursors["profile"]}&pageSize=10`)
       .subscribe({
-        next: (userPosts)=>{ this.profilePosts.next([...this.profilePosts.value, ...userPosts]); this.profilePostsPage += 1},
+        next: (userPosts)=>{ this.profilePosts.next([...this.profilePosts.value, ...userPosts]); 
+          this.cursors["profile"] = this.profilePosts.value[this.profilePosts.value.length - 1].id - 1},
         complete: ()=> this.isLoading.next(false)
-      });
-      
+      });  
   }
 
   getPostFromUser() : Observable<PostModel[]> {
@@ -117,25 +124,20 @@ export class PostService {
     return this.postList;
   }
 
-  retrieveLikedFromUser(username: string, date : string){
+  retrieveLikedFromUser(username: string){
     this.isLoading.next(true);
 
-    this.likedPosts.next([]);
-    this.likedPostsPage = 0;
+    if(username != this.profileUsername){
+      this.resetProfileSaves(username);
+    }
 
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/user/${username}/liked?page=${this.likedPostsPage}&startingDate=${date}`)
-      .subscribe({
-        next: (liked)=>{ this.likedPosts.next([...this.likedPosts.value, ...liked]); this.likedPostsPage += 1},
-        complete: ()=> this.isLoading.next(false)
-      });
-  }
+    console.log(this.cursors["liked"]);
 
-  requestLikedPage(username : string, date : string){
-    this.isLoading.next(true);
-    
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/user/${username}/liked?page=${this.likedPostsPage}&startingDate=${date}`)
+    this.httpClient.get<CursorPostsResponse>(`${environment.apiURL}/api/user/${username}/liked?cursor=${this.cursors["liked"]}&pageSize=10`)
       .subscribe({
-        next: (liked)=>{ this.likedPosts.next([...this.likedPosts.value, ...liked]); this.likedPostsPage += 1},
+        next: (liked)=>{ this.likedPosts.next([...this.likedPosts.value, ...liked.posts]); 
+          this.cursors["liked"] = liked.cursor - 1;
+        console.log(liked.posts)},
         complete: ()=> this.isLoading.next(false)
       });
   }
@@ -145,28 +147,21 @@ export class PostService {
     return this.postList;
   }
 
-  retrieveSavedFromUser(username: string, date : string){
+  retrieveSavedFromUser(username: string){
     this.isLoading.next(true);
 
-    this.savedPosts.next([]);
-    this.savedPostsPage = 0;
+    if(username != this.profileUsername){
+      this.resetProfileSaves(username);
+    }
 
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/user/${username}/saved?page=${this.savedPostsPage}&startingDate=${date}`)
+
+    this.httpClient.get<CursorPostsResponse>(`${environment.apiURL}/api/user/${username}/saved?cursor=${this.cursors["saved"]}&pageSize=10`)
       .subscribe({
-        next: (saved)=>{ this.savedPosts.next([...this.savedPosts.value, ...saved]); this.savedPostsPage += 1},
+        next: (saved)=>{ this.savedPosts.next([...this.savedPosts.value, ...saved.posts]); 
+          this.cursors["saved"] = saved.cursor - 1},
         complete: ()=> this.isLoading.next(false)
     });
 
-  }
-
-  requestSavedPage(username : string, date : string){
-    this.isLoading.next(true);
-
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/user/${username}/saved?page=${this.savedPostsPage}&startingDate=${date}`)
-      .subscribe({
-        next: (saved)=>{ this.savedPosts.next([...this.savedPosts.value, ...saved]); this.savedPostsPage += 1},
-        complete: ()=> this.isLoading.next(false)
-    });
   }
 
   getSavedFromuser(){
@@ -174,25 +169,20 @@ export class PostService {
     return this.postList;
   }
 
-  retrievePostByText(text : string, startDate : Date){
-    this.searchListPage = 0;
-    this.searchList.next([]);
+  retrievePostByText(text : string){
+    this.isLoading.next(true);
+
+    if(text != this.search) this.resetSearch(text);
 
     let searchRequest = new SearchRequest();
-
-    searchRequest.page = this.searchListPage;
+    searchRequest.cursor = this.cursors["search"];
     searchRequest.text = text;
-    searchRequest.startDate = startDate;
+    searchRequest.pageSize = 15;
 
     this.httpClient.post<PostModel[]>(`${environment.apiURL}/api/search/post/`, searchRequest).subscribe({
-      next: (posts) => { this.searchList.next([...posts]) }
-    });
-  }
-
-  getPostByTextPage(text : string, startDate : string){
-    this.searchListPage += 1;
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/search/post/${text}?startDate=${startDate}&page=${this.searchListPage}`).subscribe({
-      next: (posts) => { this.searchList.next([...this.searchList.value, ...posts]) }
+      next: (posts) => { this.searchList.next([...this.searchList.value, ...posts]);
+        this.cursors["search"] = this.searchList.value[this.searchList.value.length - 1].id - 1},
+      complete: ()=> this.isLoading.next(false)
     });
   }
 

@@ -11,10 +11,7 @@ import { PostService } from 'src/app/services/post/post.service';
 })
 export class UserSavedComponent implements OnInit {
   username : string;
-
-  openedAt : string = new Date().toUTCString();
   savedList = new BehaviorSubject<PostModel[]>([]);
-
   isLoading : Boolean = true;
 
   constructor(private activatedRoute : ActivatedRoute, private postService : PostService) {
@@ -29,7 +26,7 @@ export class UserSavedComponent implements OnInit {
     this.activatedRoute.parent.params.subscribe((params)=>{
       this.username = params["username"];
 
-      this.postService.retrieveSavedFromUser(this.username, this.openedAt);
+      this.postService.retrieveSavedFromUser(this.username);
 
       this.postService.getSavedFromuser().subscribe({
         next: (posts) =>{this.savedList.next(posts);}
@@ -40,7 +37,7 @@ export class UserSavedComponent implements OnInit {
 
   requestPostPage() : void {
     if(this.isLoading) return ;
-    this.postService.requestSavedPage(this.username, this.openedAt);
+    this.postService.retrieveSavedFromUser(this.username);
   }
 
 }

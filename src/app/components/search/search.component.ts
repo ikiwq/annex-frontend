@@ -39,7 +39,7 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.searchService.getLoadingUsers().subscribe((bool)=> this.isLoading = bool);
     this.activatedRoute.params.subscribe((params)=>{
-      console.log(params);
+
     })
   }
 
@@ -55,12 +55,11 @@ export class SearchComponent implements OnInit {
 
   searchUser(e : Event){
     let search = this.inputGroup.get('mainInput').value;
-    console.log(search)
     if(search.length <=0 ) return ;
 
     let date = new Date().toUTCString();
 
-    this.searchService.retrieveUsersByNick(search, date);
+    this.searchService.retrieveUsersByNick(search);
     this.searchService.getUsersByNick().subscribe((users)=> this.UserList.next(users))
   }
 

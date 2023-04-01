@@ -34,7 +34,7 @@ export class NotificationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.notificationsService.getUserNotification(this.notificationPage, this.openedAt).subscribe({
-      next: (notifications) => { this.notificationList.next([...this.notificationList.value, ...notifications]); console.log(notifications)}
+      next: (notifications) => { this.notificationList.next([...this.notificationList.value, ...notifications])}
     })
   } 
 
@@ -47,7 +47,6 @@ export class NotificationsComponent implements OnInit {
   }
 
   toggleList(){
-    console.log("sout")
     this.notification.nativeElement.classList.toggle("flex");
     this.notification.nativeElement.classList.toggle("hidden");
 

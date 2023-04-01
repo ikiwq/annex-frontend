@@ -32,8 +32,8 @@ export class MobileSearchComponent implements OnInit {
 
     let date = new Date().toUTCString();
 
-    this.searchService.retrieveUsersByNick(search, date);
-    this.searchService.getUsersByNick().subscribe((users)=>{this.UserList.next(users); console.log(users)})
+    this.searchService.retrieveUsersByNick(search);
+    this.searchService.getUsersByNick().subscribe((users)=>this.UserList.next(users))
   }
 
   goToSearchPage(){

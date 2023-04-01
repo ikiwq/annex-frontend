@@ -11,9 +11,7 @@ import { PostService } from 'src/app/services/post/post.service';
 })
 export class UserLikedComponent implements OnInit {
   username : string;
-  page : number = 0;
 
-  openedAt : string = new Date().toUTCString();
   likedList = new BehaviorSubject<PostModel[]>([]);
 
   isLoading : Boolean = false;
@@ -28,7 +26,7 @@ export class UserLikedComponent implements OnInit {
     
     this.activatedRoute.parent.params.subscribe((params)=>{
       this.username = params["username"];
-      this.postService.retrieveLikedFromUser(this.username, this.openedAt);
+      this.postService.retrieveLikedFromUser(this.username);
 
       this.postService.getLikedFromUser().subscribe({
         next: (posts) =>{this.likedList.next(posts);}
@@ -38,9 +36,7 @@ export class UserLikedComponent implements OnInit {
 
   requestPostPage() : void {
     if(this.isLoading) return ;
-
-    this.postService.requestLikedPage(this.username, this.openedAt);
-    
+    this.postService.retrieveLikedFromUser(this.username);
   }
 
 }
