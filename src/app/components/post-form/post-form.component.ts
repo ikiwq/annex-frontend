@@ -104,8 +104,7 @@ export class PostFormComponent implements OnInit {
     this.imgFilesLoad = [];
 
     if(this.id){
-      this.postService.replyToPost(postReq, this.id);
-      
+      this.postService.replyToPost(formData, this.id);
       return ;
     }
 

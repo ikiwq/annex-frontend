@@ -23,14 +23,14 @@
         <div class="">
             <div class="flex justify-between relative" (click)="goToCreator($event)">
                 <div class="flex items-center justify-center gap-2"><p class="font-semibold text-md post-hover-link">{{post.creator}}</p><p class="text-sm">{{post.createdAt}}</p></div>
-                <div class="flex justify-center items-center gap-2 reply-container relative hover:cursor-pointer" (click)="togglePostMenu($event)">
+                <div class="flex justify-center items-center gap-2 reply-container relative hover:cursor-pointer" (click)="togglePostMenu($event)" *ngIf="isAuthor">
                     <div class="relative flex items-center justify-center">
                         <div class="p-5 reply absolute rounded-full"></div>
                         <mat-icon class="cursor-pointer">more_horiz</mat-icon>
                     </div>
                 </div>
             </div>
-            <p class="text-sm hover:underline" *ngIf="post.reply" (click)="goToReplying($event)">Replying to <span class="text-color-accent">{{post.replyingToUser}}</span></p>
+            <div class="flex"><p class="text-sm hover:underline" *ngIf="post.reply" (click)="goToReplying($event)">Replying to <span class="text-color-accent">{{post.replyingToUser}}</span></p><div></div></div>
             <div class="text-sm break-all" #messageContainer></div>
             <div *ngIf="post.imageUrls" class="flex w-full h-96 gap-2 my-2">
                 <div class="flex flex-col w-full gap-2 h-full">

@@ -19,25 +19,23 @@ export class TokenInterceptor implements HttpInterceptor{
         const jwtToken = this.sharedService.getJwtToken();
 
         req.headers.set('Content-Type', 'application/json; charset=utf-8');
-
-        if(jwtToken && !this.isTokenRefreshing){
-            req = this.addToken(req, jwtToken);
+        
+        if(jwtToken) {
+            return next.handle(this.addToken(req, jwtToken)).pipe(catchError(error => {
+                if(error instanceof HttpErrorResponse && (error.status === 403) ){
+                    return this.handleAuthErrors(req, next);
+                }
+                else{
+                    return throwError(()=> new Error(error.error));
+                }
+            }))
         }
 
-        return next.handle(req).pipe(catchError(error => {
-            if(error instanceof HttpErrorResponse && (error.status === 403) ){
-                return this.handleAuthErrors(req, next);
-            }
-            else{
-                return throwError(()=> new Error(error.error));
-            }
-        }));
+        return next.handle(req);
     }
 
     private handleAuthErrors(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
-
         if(!this.isTokenRefreshing){
-
             this.isTokenRefreshing = true;
             this.refreshTokenSubject.next(null);
             

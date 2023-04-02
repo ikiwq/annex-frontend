@@ -80,6 +80,7 @@ export class SharedService{
     this.user.next(null);
 
     this.httpClient.get(`${environment.apiURL}/api/auth/logout`);
+    window.location.reload();
   }
   
 }

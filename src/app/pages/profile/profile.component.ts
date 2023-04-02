@@ -37,7 +37,7 @@ export class ProfileComponent implements OnInit {
     birthday : new FormControl('')
   })
 
-  constructor(private userService : UserService, private activatedRoute : ActivatedRoute, private router: Router, private sharedService : SharedService,
+  constructor(private userService : UserService, private activatedRoute : ActivatedRoute, private sharedService : SharedService,
     private DMService : DarkModeService, private followService : FollowService) { }
 
   ngOnInit(): void {
@@ -145,7 +145,6 @@ export class ProfileComponent implements OnInit {
         }else{
           this.user.followers = this.user.followers + 1;
         }
-
         this.user.followed = this.user.followed ? false : true;
       },
     })

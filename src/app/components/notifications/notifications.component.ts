@@ -33,13 +33,12 @@ export class NotificationsComponent implements OnInit {
   constructor(private notificationsService : NotificationsService) { }
 
   ngOnInit(): void {
-    this.notificationsService.getUserNotification(this.notificationPage, this.openedAt).subscribe({
-      next: (notifications) => { this.notificationList.next([...this.notificationList.value, ...notifications])}
-    })
+    this.notificationsService.retrieveUserNotification();
+    this.notificationsService.getUserNotification().subscribe((notifications)=> this.notificationList.next(notifications));
   } 
 
   requestNotificationPage() : void{
-
+    this.notificationsService.retrieveUserNotification();
   }
 
   hideList(){

@@ -8,6 +8,8 @@ import { userModel } from 'src/app/models/user-model';
   providedIn: 'root'
 })
 export class SearchService {
+  
+  private currentSearch : BehaviorSubject<string> = new BehaviorSubject<string>("");
 
   private isLoadingPosts = new BehaviorSubject<Boolean>(false);
   private isLoadingUsers = new BehaviorSubject<Boolean>(false);
@@ -34,6 +36,14 @@ export class SearchService {
 
   getUsersByNick(){
     return this.profileList;
+  }
+
+  setCurrentSearch(text : string){
+    this.currentSearch.next(text);
+  }
+
+  getCurrentSearch(){
+    return this.currentSearch;
   }
 
 }

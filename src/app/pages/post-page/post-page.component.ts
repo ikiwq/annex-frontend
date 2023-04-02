@@ -44,7 +44,6 @@ export class PostPageComponent implements OnInit {
   requestReplyPage(){
     if(this.isLoading) return ;
     this.postService.retrievePostReplies(this.id);
-    console.log("requesting!")
   }
 
 }

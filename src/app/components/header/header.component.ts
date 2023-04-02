@@ -1,5 +1,6 @@
-import { Component, HostListener, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, HostListener, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/auth/shared/shared.service';
 import { DarkModeService } from 'src/app/services/darkModeService/dark-mode.service';
 
@@ -9,11 +10,17 @@ import { DarkModeService } from 'src/app/services/darkModeService/dark-mode.serv
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+
   isMenuShown : Boolean = false;
   isDarkMode : Boolean;
 
+  isInHome : Boolean = true;
+
   public user : any;
 
+  @Input() public seeLogo : boolean = true;
+  @Input() public seeBack : boolean = false;
+   
   @ViewChild("menu") private menuRef: ElementRef<HTMLElement>;
   @ViewChild("profilePic") private pfpRef: ElementRef<HTMLElement>;
 
@@ -28,12 +35,29 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  constructor(private sharedService : SharedService, private darkModeService : DarkModeService) { 
+  constructor(private sharedService : SharedService, private route: ActivatedRoute, private darkModeService : DarkModeService, private router : Router,
+    private location : Location) { 
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd){
+        const eventUrl =  event.urlAfterRedirects;
+        if(eventUrl != "/"){
+          this.seeBack = true;
+          this.seeLogo = false;
+        }else{
+          this.seeLogo = true;
+          this.seeBack = false;
+        }
+      }
+    })
   }
 
   ngOnInit(): void {
     this.sharedService.getCurrentUser().subscribe((resUser)=> this.user = resUser);
     this.darkModeService.getDarkMode().subscribe((bool)=> this.isDarkMode = bool);
+  }
+
+  navigateBack(){
+    this.location.back();
   }
 
   toggleMenu(){

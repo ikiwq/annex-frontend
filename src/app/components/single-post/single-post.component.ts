@@ -20,6 +20,8 @@ export class SinglePostComponent implements OnInit {
 
 
   @Input() post : PostModel;
+  @Input() highlighted : Boolean;
+  
   @ViewChild("postMenu") private postMenu: ElementRef<HTMLElement>;
   @ViewChild("messageContainer", {static: true}) private messageContainer : ElementRef<HTMLElement>;
 
@@ -50,8 +52,6 @@ export class SinglePostComponent implements OnInit {
     }else{
       this.isAuthor = false;
     }
-
-
   }
 
   like(event : Event): void {
@@ -124,10 +124,14 @@ export class SinglePostComponent implements OnInit {
   }
 
   share(event : Event) : void {
-    navigator.share({
-      text: "Share this post!",
-      url: environment.frontendUrl + "/post/" + this.post.id
-    });
+    if(navigator.share){
+      navigator.share({
+        text: "Share this post!",
+        url: environment.frontendUrl + "/post/" + this.post.id
+      });
+    }else{
+      navigator.clipboard.writeText(environment.frontendUrl + "/post/" + this.post.id);
+    }
     event.stopPropagation();
   }
 

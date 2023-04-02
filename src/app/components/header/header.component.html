@@ -1,9 +1,14 @@
 <div class="header h-14 px-2 w-full fixed top-0 z-20">
     <div class="container max-w-7xl mx-auto flex justify-between h-full">
         <div class="flex items-center justify-center gap-4">
-            <a routerLink="/"><div class="h-full flex items-center">
-                <p class="text-2xl font-bold">Annex</p>
-            </div></a>
+            <div class="md:hidden px-2 flex justify-center items-center" [ngClass]="seeBack ? 'flex' : 'hidden'" (click)="navigateBack()">
+                <mat-icon>arrow_back_ios</mat-icon>
+            </div>
+            <a routerLink="/" class="md:flex" [ngClass]="seeLogo ? 'flex' : 'hidden'">
+                <div class="h-full flex items-center">
+                    <p class="text-2xl font-bold">Annex</p>
+                </div>
+            </a>
             <app-search class="hidden md:flex"></app-search>
         </div>
         <ng-template #loginContent>

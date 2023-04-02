@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { PostModel } from 'src/app/models/post-model';
 import { PostService } from 'src/app/services/post/post.service';
+import { SearchService } from 'src/app/services/search/search.service'
 
 @Component({
   selector: 'app-search-page',
@@ -15,7 +16,7 @@ export class SearchPageComponent implements OnInit {
   postList = new BehaviorSubject<PostModel[]>([]);
   private search : string;
 
-  constructor(private postService : PostService, private activatedRoute : ActivatedRoute) { }
+  constructor(private postService : PostService, private searchService: SearchService, private activatedRoute : ActivatedRoute) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params)=>{
@@ -24,6 +25,8 @@ export class SearchPageComponent implements OnInit {
       this.postService.getLoading().subscribe((bool)=>this.isLoading = bool);
       this.postService.retrievePostByText(this.search);
       this.postService.getPostList().subscribe((posts)=> this.postList.next(posts));
+      
+      this.searchService.setCurrentSearch(this.search);
     })
   }
 

@@ -1,14 +1,14 @@
-<div class="h-14 w-full primary-background-color overflow-x-clip">
+<div class="h-12 py-0.5 w-full primary-background-color overflow-x-clip">
     <div class="flex h-full justify-around items-center">
-        <div class="flex items-center justify-center h-full cursor-pointer" routerLink="/" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active-section">
-            <img class="max-h-8" src="https://img.icons8.com/3d-fluency/94/null/home.png"/>
+        <div class="flex items-center justify-center h-full cursor-pointer" routerLink="/" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active-section text-color-accent">
+            <mat-icon class="scale-150">home</mat-icon>
         </div>
-        <div class="flex items-center justify-center h-full cursor-pointer" routerLink="/mobile-search" routerLinkActive="active-section">
-            <img class="max-h-8" src="https://img.icons8.com/3d-fluency/94/null/search.png"/>
+        <div class="flex items-center justify-center h-full cursor-pointer" routerLink="/mobile-search" routerLinkActive="active-section text-color-accent">
+            <mat-icon class="scale-150">search</mat-icon>
         </div>
         <div class="flex items-center justify-center h-full cursor-pointer" (click)="goToProfile()"
-        routerLinkActive="active-section">
-            <img class="max-h-8" src="https://img.icons8.com/3d-fluency/94/null/person-male--v1.png"/>
+        routerLinkActive="active-section text-color-accent">
+            <mat-icon class="scale-150">person</mat-icon>
         </div>
     </div>
 </div>

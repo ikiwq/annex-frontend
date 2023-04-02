@@ -34,13 +34,11 @@ export class SearchComponent implements OnInit {
     mainInput: new FormControl('', [Validators.minLength(0), Validators.maxLength(32)])
   })
 
-  constructor(private searchService: SearchService, private router : Router, private activatedRoute : ActivatedRoute) { }
+  constructor(private searchService: SearchService, private router : Router) { }
 
   ngOnInit(): void {
     this.searchService.getLoadingUsers().subscribe((bool)=> this.isLoading = bool);
-    this.activatedRoute.params.subscribe((params)=>{
-
-    })
+    this.searchService.getCurrentSearch().subscribe((text)=>this.inputGroup.get("mainInput").setValue(text))
   }
 
   hideList(){
@@ -56,8 +54,6 @@ export class SearchComponent implements OnInit {
   searchUser(e : Event){
     let search = this.inputGroup.get('mainInput').value;
     if(search.length <=0 ) return ;
-
-    let date = new Date().toUTCString();
 
     this.searchService.retrieveUsersByNick(search);
     this.searchService.getUsersByNick().subscribe((users)=> this.UserList.next(users))

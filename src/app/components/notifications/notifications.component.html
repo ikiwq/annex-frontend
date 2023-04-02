@@ -9,7 +9,7 @@
             <p class="px-2 py-2 font-semibold">You don't have any notifications yet!</p>
         </div>
         <tr *ngFor="let notification of notificationList | async" class="z-10 flex items-center justify-center">
-            <div class="flex gap-2 py-1 cursor-pointer items-center justify-center section-smooth-secondary w-full" [routerLink]="[notification.toUrl]">
+            <div class="flex gap-2 py-1 cursor-pointer items-center justify-start px-1 section-smooth-secondary w-full" [routerLink]="[notification.toUrl]">
                 <div class="w-14 h-14 flex-shrink-0">
                     <img [src]="notification.imageUrl" class="w-14 h-14 object-cover rounded-full">
                 </div>

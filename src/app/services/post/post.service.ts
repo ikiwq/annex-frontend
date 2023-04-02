@@ -30,6 +30,15 @@ export class PostService{
     saved : -1
   }
 
+  noElementsLeft = {
+    reccomended : 0,
+    reply : 0,
+    search : 0,
+    profile : 0,
+    liked : 0,
+    saved : 0
+  }
+
   repliesPostId : string = "";
   profileUsername : string = "";
   search : string = "";
@@ -48,10 +57,17 @@ export class PostService{
     this.profilePosts.next([]);
     this.likedPosts.next([]);
     this.savedPosts.next([]);
-    this.profileUsername = username;
+
+    this.cursors["profile"] = -1;
     this.cursors["liked"] = -1;
     this.cursors["saved"] = -1;
-    this.cursors["profile"] = -1;
+    
+    this.noElementsLeft["profile"] = 0;
+    this.noElementsLeft["liked"] = 0;
+    this.noElementsLeft["saved"] = 0;
+
+    this.profileUsername = username;
+
   }
 
   resetSearch(text : string){
@@ -59,6 +75,7 @@ export class PostService{
       this.searchList.next([]);
       this.search = text;
       this.cursors["search"] = -1;
+      this.noElementsLeft["search"] = 0;
     }
   }
 
@@ -70,11 +87,13 @@ export class PostService{
   }
 
   retrieveReccomendedPosts() {
+    if(this.noElementsLeft["reccomended"]) return ;
     this.isLoading.next(true);
     this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/cursor/${this.cursors["reccomended"]}?pageSize=20`)
       .subscribe({
         next: (newPosts) => { this.reccomendedPosts.next([...this.reccomendedPosts.value, ...newPosts]);
-           this.cursors["reccomended"] = this.reccomendedPosts.value[this.reccomendedPosts.value.length - 1].id - 1;},
+          this.cursors["reccomended"] = this.reccomendedPosts.value[this.reccomendedPosts.value.length - 1].id - 1;
+          if(newPosts.length == 0) this.noElementsLeft["reccomended"] = 1},
         complete: ()=> this.isLoading.next(false)
       });
   }
@@ -85,16 +104,29 @@ export class PostService{
   }
 
   retrievePostReplies(id : string){
-    this.isLoading.next(true);
+
     if(id != this.repliesPostId){
       this.repliesPosts.next([]);
       this.repliesPostId = id;
       this.cursors["reply"] = -1;
+      this.noElementsLeft["reply"] = 0;
     }
+
+    if(this.noElementsLeft["reply"]) return ;
+
+    this.isLoading.next(true);
+
     this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/${id}/reply?cursor=${this.cursors["reply"]}&pageSize=10`)
       .subscribe({
         next: (replies)=>{ this.repliesPosts.next([...this.repliesPosts.value, ...replies]);
-        this.cursors["reply"] = this.repliesPosts.value[this.repliesPosts.value.length - 1].id - 1},
+          
+        if(this.repliesPosts.value.length == 0){
+          this.cursors["reply"] = 0;
+        }else{
+          this.cursors["reply"] = this.repliesPosts.value[this.repliesPosts.value.length - 1].id - 1;
+        }
+
+        if(replies.length == 0) this.noElementsLeft["reply"] = 1;},
         complete: ()=> this.isLoading.next(false)
       });
   }
@@ -105,6 +137,8 @@ export class PostService{
   }
 
   retrievePostFromUser(username : string){
+    if(this.noElementsLeft["reccomended"]) return ;
+
     this.isLoading.next(true);
 
     if(this.profileUsername != username) {
@@ -114,7 +148,8 @@ export class PostService{
     this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/user/${username}/posts?cursor=${this.cursors["profile"]}&pageSize=10`)
       .subscribe({
         next: (userPosts)=>{ this.profilePosts.next([...this.profilePosts.value, ...userPosts]); 
-          this.cursors["profile"] = this.profilePosts.value[this.profilePosts.value.length - 1].id - 1},
+          this.cursors["profile"] = this.profilePosts.value[this.profilePosts.value.length - 1].id - 1;
+          if(userPosts.length == 0) this.noElementsLeft["reccomended"] = 1;},
         complete: ()=> this.isLoading.next(false)
       });  
   }
@@ -125,19 +160,18 @@ export class PostService{
   }
 
   retrieveLikedFromUser(username: string){
+    if(this.noElementsLeft["liked"]) return ;
     this.isLoading.next(true);
 
     if(username != this.profileUsername){
       this.resetProfileSaves(username);
     }
 
-    console.log(this.cursors["liked"]);
-
     this.httpClient.get<CursorPostsResponse>(`${environment.apiURL}/api/user/${username}/liked?cursor=${this.cursors["liked"]}&pageSize=10`)
       .subscribe({
         next: (liked)=>{ this.likedPosts.next([...this.likedPosts.value, ...liked.posts]); 
           this.cursors["liked"] = liked.cursor - 1;
-        console.log(liked.posts)},
+          if(liked.posts.length == 0) this.noElementsLeft["liked"] = 1},
         complete: ()=> this.isLoading.next(false)
       });
   }
@@ -148,6 +182,8 @@ export class PostService{
   }
 
   retrieveSavedFromUser(username: string){
+    if(this.noElementsLeft["saved"]) return ;
+    
     this.isLoading.next(true);
 
     if(username != this.profileUsername){
@@ -158,7 +194,8 @@ export class PostService{
     this.httpClient.get<CursorPostsResponse>(`${environment.apiURL}/api/user/${username}/saved?cursor=${this.cursors["saved"]}&pageSize=10`)
       .subscribe({
         next: (saved)=>{ this.savedPosts.next([...this.savedPosts.value, ...saved.posts]); 
-          this.cursors["saved"] = saved.cursor - 1},
+          this.cursors["saved"] = saved.cursor - 1;
+          if(saved.posts.length == 0) this.noElementsLeft["saved"] = 1},
         complete: ()=> this.isLoading.next(false)
     });
 
@@ -170,9 +207,10 @@ export class PostService{
   }
 
   retrievePostByText(text : string){
-    this.isLoading.next(true);
-
     if(text != this.search) this.resetSearch(text);
+    if(this.noElementsLeft["search"]) return ;
+    
+    this.isLoading.next(true);
 
     let searchRequest = new SearchRequest();
     searchRequest.cursor = this.cursors["search"];
@@ -181,7 +219,8 @@ export class PostService{
 
     this.httpClient.post<PostModel[]>(`${environment.apiURL}/api/search/post/`, searchRequest).subscribe({
       next: (posts) => { this.searchList.next([...this.searchList.value, ...posts]);
-        this.cursors["search"] = this.searchList.value[this.searchList.value.length - 1].id - 1},
+        this.cursors["search"] = this.searchList.value[this.searchList.value.length - 1].id - 1;
+        if(posts.length == 0) this.noElementsLeft["search"] = 1;},
       complete: ()=> this.isLoading.next(false)
     });
   }
@@ -198,8 +237,8 @@ export class PostService{
     .subscribe((newPost) => this.postList.next([newPost, ...this.postList.getValue()]));
   }
 
-  replyToPost(postReq : postRequest, id: string){
-    return this.httpClient.post<PostModel>(`${environment.apiURL}/api/post/${id}/reply`, postReq).subscribe(
+  replyToPost(postForm : FormData, id: string){
+    return this.httpClient.post<PostModel>(`${environment.apiURL}/api/post/${id}/reply`, postForm).subscribe(
       (newReply)=> this.postList.next([newReply, ...this.postList.getValue()])
     );
   }
