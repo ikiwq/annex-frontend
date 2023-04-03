@@ -28,8 +28,8 @@
             
             <div class="px-4 pt-1 flex">
                 <div class="button flex rounded-full border-neutral-700 border px-3 py-2 hover:cursor-pointer transition-all duration-300">
-                    <label for="upload-photo" class="flex items-center gap-1 justify-center cursor-pointer primary-text"><mat-icon class="text-color-accent">photo</mat-icon>Photo</label>
-                    <input type="file" name="photo" id="upload-photo" (change)="onFileChanged($event)" accept="image/png, image/jpeg"/>
+                    <label for="upload-photo" class="flex items-center relative gap-1 justify-center cursor-pointer primary-text"><mat-icon class="text-color-accent">photo</mat-icon>Photo</label>
+                    <input type="file" class="w-2" name="photo" id="upload-photo" (change)="onFileChanged($event)" accept="image/png, image/jpeg"/>
                 </div>
             </div>
         </div>

@@ -23,7 +23,8 @@ export class MobileSearchComponent implements OnInit {
   constructor(private searchService: SearchService, private router : Router) { }
 
   ngOnInit(): void {
-    this.searchService.getLoadingUsers().subscribe((bool)=> this.isLoading = bool)
+    this.searchService.getLoadingUsers().subscribe((bool)=> this.isLoading = bool);
+    window.scrollTo(0, 0);
   }
 
   searchUser(e : Event){

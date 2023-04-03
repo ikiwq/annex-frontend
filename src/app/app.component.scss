@@ -3,6 +3,8 @@
 }
 
 .light {
+    -webkit-tap-highlight-color: transparent;
+    
     --color-shadow-primary: rgb(240, 240, 240);
 
     --color-bg-primary: rgb(237, 242, 247);
@@ -17,6 +19,8 @@
 }
 
 .dark {
+    -webkit-tap-highlight-color: transparent;
+
     --color-shadow-primary: rgb(16, 16, 16);
     
     --color-bg-primary: rgb(24, 25, 26);
