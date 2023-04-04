@@ -1,4 +1,3 @@
-import { style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { Router} from '@angular/router';
 import { PostModel } from 'src/app/models/post-model';
@@ -37,7 +36,7 @@ export class SinglePostComponent implements OnInit {
   }
 
   ngOnInit(): void {  
-    this.messageContainer.nativeElement.innerHTML = this.post.message;
+    //this.messageContainer.nativeElement.innerHTML = this.post.message; SUPER DANGEROUS!!!!
 
     this.isPostLiked = this.post.liked;
     this.isPostSaved = this.post.saved;

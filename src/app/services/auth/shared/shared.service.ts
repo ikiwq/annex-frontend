@@ -18,7 +18,7 @@ export class SharedService{
   }
 
   retrieveUser(): void {
-    if(this.getRefreshToken() != undefined){
+    if(this.getMail() != undefined){
       this.httpClient.get<userModel>(`${environment.apiURL}/api/auth/getCurrentUser`).subscribe((resUser)=> {this.user.next(resUser)});
     }
   }
@@ -38,49 +38,27 @@ export class SharedService{
   login(loginRequestPayload : LoginRequestPayload): Observable<boolean>{
     return this.httpClient.post<LoginResponse>(`${environment.apiURL}/api/auth/login`, loginRequestPayload).pipe(
       map(data => {
-        localStorage.setItem('authenticationToken', data.authToken);
         localStorage.setItem('email', data.mail);
-        localStorage.setItem('refreshToken', data.refreshToken);
-        localStorage.setItem('expiretAt', data.expiresAt.toString());
+        localStorage.setItem('expiresAt', data.expiresAt.toString());
         return true;
       })
     )
   }
 
-  getJwtToken(){
-    return localStorage.getItem('authenticationToken');
-  }
-
-  getRefreshToken(){
-    return localStorage.getItem('refreshToken');
-  }
-
-  getCurrentMail(){
-    return localStorage.getItem('email');
-  }
-
-  refreshToken(){
-    const refreshTokenPayload = {
-      refreshToken: this.getRefreshToken(),
-      mail: this.getCurrentMail()
-    }
-
-    return this.httpClient.post<LoginResponse>(`${environment.apiURL}/api/auth/refresh/token`, refreshTokenPayload)
-    .pipe(tap(response => {
-      localStorage.setItem('authenticationToken', response.authToken);
-      localStorage.setItem('expiresAt', response.expiresAt.toString());
-    }))
+  getMail() : string{
+    return localStorage.getItem("email");
   }
 
   logout(){
-    localStorage.removeItem('authenticationToken');
-    localStorage.removeItem('email');
-    localStorage.removeItem('expiresAt');
-    localStorage.removeItem('refreshToken');
-    this.user.next(null);
+    this.httpClient.get<string>(`${environment.apiURL}/api/auth/logout`, {responseType: 'text' as 'json'}).subscribe({
+      next: ()=>{
+        localStorage.removeItem('expiresAt');
+        localStorage.removeItem('email');
+        this.user.next(null);
+        window.location.reload();
+      },
+    });
 
-    this.httpClient.get(`${environment.apiURL}/api/auth/logout`);
-    window.location.reload();
   }
   
 }

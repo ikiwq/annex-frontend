@@ -14,7 +14,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { LateralHomebarComponent } from './components/lateral-homebar/lateral-homebar.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { SinglePostComponent } from './components/single-post/single-post.component';
-import { TokenInterceptor } from './token-interceptor';
 import { ProfileBarComponent } from './components/profile-bar/profile-bar.component';
 import { ProfileCardComponent } from './components/profile-card/profile-card.component';
 import { PostFormComponent } from './components/post-form/post-form.component';
@@ -37,6 +36,8 @@ import { MobileMenuComponent } from './components/mobile-menu/mobile-menu.compon
 import { MobileSearchComponent } from './pages/mobile-search/mobile-search.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { SuggestedTagsComponent } from './components/suggested-tags/suggested-tags.component';
+import { LinkifyPipe } from './utils/linkify/linkify.component';
+import { WithCredentialsInterceptor } from './interceptors/WithCredentialsInterceptor';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { SuggestedTagsComponent } from './components/suggested-tags/suggested-ta
     MobileSearchComponent,
     NotificationsComponent,
     SuggestedTagsComponent,
+    LinkifyPipe
   ],
   imports: [
     BrowserModule,
@@ -79,13 +81,11 @@ import { SuggestedTagsComponent } from './components/suggested-tags/suggested-ta
     HttpClientModule,
     BrowserAnimationsModule
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    }
-  ],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: WithCredentialsInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

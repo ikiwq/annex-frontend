@@ -31,7 +31,8 @@
                 </div>
             </div>
             <div class="flex"><p class="text-sm hover:underline" *ngIf="post.reply" (click)="goToReplying($event)">Replying to <span class="text-color-accent">{{post.replyingToUser}}</span></p><div></div></div>
-            <div class="text-sm break-all" #messageContainer></div>
+            <div class="text-sm break-all" [innerHTML]="this.post.message | Linkify" #messageContainer>
+            </div>
             <div *ngIf="post.imageUrls" class="flex w-full h-96 gap-2 my-2">
                 <div class="flex flex-col w-full gap-2 h-full">
                     <div *ngIf="post.imageUrls.length > 0" class="w-full h-full rounded-md relative transition-all duration-200" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url('+ post.imageUrls[0] +')'"></div>
