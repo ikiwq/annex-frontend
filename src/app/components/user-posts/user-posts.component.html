@@ -1,5 +1,5 @@
 <div class="flex flex-col relative">
-    <app-posts [postList]="postList"></app-posts>
+    <app-post-list [postList]="postList"></app-post-list>
     <div *ngIf="postList.value.length <= 0 && !isLoading" class="mt-20">
         <h1 class="text-center font-semibold text-4xl"> User has no posts yet! </h1>
     </div>

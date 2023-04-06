@@ -3,4 +3,5 @@ export class Notification{
     imageUrl: string;
     toUrl: string;
     seen : boolean;
+    createdAt : string;
 }

@@ -1,5 +1,5 @@
 <div class="flex flex-col my-2 py-4 px-2 post-card" *ngIf="tagList.getValue().length > 0">
-    <p class="pb-1 font-semibold text-xl">Popular tags</p>
+    <p class="font-semibold text-xl px-1">Popular tags</p>
     <div class="flex flex-col">
         <tr *ngFor="let tag of tagList | async">
             <div class="w-full py-2 px-2 flex flex-col" [routerLink]="['/search/', tag.name]">

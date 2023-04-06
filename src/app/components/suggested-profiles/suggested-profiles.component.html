@@ -1,0 +1,6 @@
+<div class="">
+    <div class="flex flex-col my-2 py-2 px-2 post-card" *ngIf="suggestedList.getValue().length > 0">
+        <p class="pb-1 font-semibold text-xl">Recommended accounts</p>
+        <app-profile-list [profileList]="suggestedList.getValue()"></app-profile-list>
+    </div>
+</div>

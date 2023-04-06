@@ -92,8 +92,11 @@ export class PostService{
     this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/cursor/${this.cursors["reccomended"]}?pageSize=20`)
       .subscribe({
         next: (newPosts) => { this.reccomendedPosts.next([...this.reccomendedPosts.value, ...newPosts]);
-          this.cursors["reccomended"] = this.reccomendedPosts.value[this.reccomendedPosts.value.length - 1].id - 1;
-          if(newPosts.length == 0) this.noElementsLeft["reccomended"] = 1},
+          if(newPosts.length == 0){
+            this.noElementsLeft["reccomended"] = 1;
+            return ;
+          }
+          this.cursors["reccomended"] = this.reccomendedPosts.value[this.reccomendedPosts.value.length - 1].id - 1;},
         complete: ()=> this.isLoading.next(false)
       });
   }
@@ -119,14 +122,18 @@ export class PostService{
     this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/${id}/reply?cursor=${this.cursors["reply"]}&pageSize=10`)
       .subscribe({
         next: (replies)=>{ this.repliesPosts.next([...this.repliesPosts.value, ...replies]);
-          
+
+        if(replies.length == 0){
+          this.noElementsLeft["reply"] = 1;
+          return ;
+        }
+
         if(this.repliesPosts.value.length == 0){
           this.cursors["reply"] = 0;
         }else{
           this.cursors["reply"] = this.repliesPosts.value[this.repliesPosts.value.length - 1].id - 1;
         }
-
-        if(replies.length == 0) this.noElementsLeft["reply"] = 1;},
+      },
         complete: ()=> this.isLoading.next(false)
       });
   }
@@ -148,8 +155,12 @@ export class PostService{
     this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/user/${username}/posts?cursor=${this.cursors["profile"]}&pageSize=10`)
       .subscribe({
         next: (userPosts)=>{ this.profilePosts.next([...this.profilePosts.value, ...userPosts]); 
+          if(userPosts.length == 0){
+            this.noElementsLeft["reccomended"] = 1;
+            return ;
+          };
           this.cursors["profile"] = this.profilePosts.value[this.profilePosts.value.length - 1].id - 1;
-          if(userPosts.length == 0) this.noElementsLeft["reccomended"] = 1;},
+          },
         complete: ()=> this.isLoading.next(false)
       });  
   }
@@ -170,8 +181,11 @@ export class PostService{
     this.httpClient.get<CursorPostsResponse>(`${environment.apiURL}/api/user/${username}/liked?cursor=${this.cursors["liked"]}&pageSize=10`)
       .subscribe({
         next: (liked)=>{ this.likedPosts.next([...this.likedPosts.value, ...liked.posts]); 
-          this.cursors["liked"] = liked.cursor - 1;
-          if(liked.posts.length == 0) this.noElementsLeft["liked"] = 1},
+          if(liked.posts.length == 0){
+            this.noElementsLeft["liked"] = 1;
+            return ;
+          }
+          this.cursors["liked"] = liked.cursor - 1;},
         complete: ()=> this.isLoading.next(false)
       });
   }
@@ -194,8 +208,11 @@ export class PostService{
     this.httpClient.get<CursorPostsResponse>(`${environment.apiURL}/api/user/${username}/saved?cursor=${this.cursors["saved"]}&pageSize=10`)
       .subscribe({
         next: (saved)=>{ this.savedPosts.next([...this.savedPosts.value, ...saved.posts]); 
-          this.cursors["saved"] = saved.cursor - 1;
-          if(saved.posts.length == 0) this.noElementsLeft["saved"] = 1},
+          if(saved.posts.length == 0){
+            this.noElementsLeft["saved"] = 1;
+            return ;
+          }
+          this.cursors["saved"] = saved.cursor - 1;},
         complete: ()=> this.isLoading.next(false)
     });
 
@@ -219,8 +236,12 @@ export class PostService{
 
     this.httpClient.post<PostModel[]>(`${environment.apiURL}/api/search/post/`, searchRequest).subscribe({
       next: (posts) => { this.searchList.next([...this.searchList.value, ...posts]);
+        if(posts.length == 0){
+          this.noElementsLeft["search"] = 1;
+          return ;
+        }
         this.cursors["search"] = this.searchList.value[this.searchList.value.length - 1].id - 1;
-        if(posts.length == 0) this.noElementsLeft["search"] = 1;},
+        },
       complete: ()=> this.isLoading.next(false)
     });
   }

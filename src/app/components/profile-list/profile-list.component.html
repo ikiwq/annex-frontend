@@ -1,0 +1,9 @@
+<div>
+    <div class="flex flex-col gap-2" *ngIf="profileList.length > 0">
+        <tr *ngFor="let profile of profileList">
+            <div class="section-smooth">
+                <app-profile-card [profile]="profile"></app-profile-card>
+            </div>
+        </tr>
+    </div>
+</div>

@@ -1,9 +1,9 @@
 <div class="flex flex-col gap-2">
-    <div class="" *ngIf="currentUser">
+    <div class="-mt-3 md:mt-0" *ngIf="currentUser">
         <app-post-form></app-post-form>
     </div>
-    <app-posts class="" [postList]="postList"></app-posts>
+    <app-post-list class="" [postList]="postList"></app-post-list>
     <div class="relative">
         <app-observer (inView)="requestPostPage()" class="absolute -top-40"></app-observer>
     </div>
-</div>  
+</div>

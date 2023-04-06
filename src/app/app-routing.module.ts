@@ -20,9 +20,9 @@ const routes: Routes = [
     children:[
       {path: '', component: HomePostComponent},
       {path: "search/:search", component: SearchPageComponent},
-      {path: "mobile-search", component: MobileSearchComponent}
+      {path: "mobile-search", component: MobileSearchComponent},
+      {path: "post/:id", component: PostPageComponent},
     ]},
-  {path: 'post/:id', component: PostPageComponent},
   {path: 'profile/:username', component: ProfileComponent,
     children:[
       {path: '', component: UserPostsComponent},

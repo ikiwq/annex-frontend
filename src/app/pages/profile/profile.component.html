@@ -1,18 +1,22 @@
 <div class="flex flex-col w-full relative overflow-x-hidden md:overflow-x-clip">
     <div class="mt-14" *ngIf="user">
-        <div *ngIf="user?.backgroundPicture" class="h-64" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url(' + user?.backgroundPicture + ')'"></div>
-        <div *ngIf="!user?.backgroundPicture" [ngClass]="isDarkMode ? 'from-green-500 to-green-700' : 'from-blue-500 to-blue-700'" class="h-64 bg-gradient-to-r"></div>
+        <div *ngIf="user?.backgroundPicture" class="h-64" [style.background]="'center no-repeat'"
+            [style.background-size]="'cover'" [style.backgroundImage]="'url(' + user?.backgroundPicture + ')'"></div>
+        <div *ngIf="!user?.backgroundPicture" class="h-64 from-blue-500 to-blue-700 bg-gradient-to-r"></div>
         <div class="flex flex-col px-2 md:hidden ">
             <div class="flex justify-end items-end w-full py-2 relative">
                 <div class="max-w-min border-4 rounded-md profile-image absolute left-0">
-                    <div class="h-32 w-32" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url(' + user.profilePicture + ')'"></div>
+                    <div class="h-32 w-32" [style.background]="'center no-repeat'" [style.background-size]="'cover'"
+                        [style.backgroundImage]="'url(' + user.profilePicture + ')'"></div>
                 </div>
                 <div>
                     <div class="flex w-full h-full items-end justify-center gap-2" *ngIf="!isCurrentUser">
-                        <button class="accent-color-background font-semibold rounded-sm px-2 py-2 text-xl text-white" (click)="followUser()">{{user.followed ? "Unfollow" : "Follow"}}</button>
+                        <button class="accent-color-background font-semibold rounded-sm px-2 py-2 text-xl text-white"
+                            (click)="followUser()">{{user.followed ? "Unfollow" : "Follow"}}</button>
                     </div>
                     <div class="flex w-full h-full items-end justify-center gap-2" *ngIf="isCurrentUser">
-                        <button class="accent-color-background text-white font-semibold rounded-full px-2 py-2 text-xl" (click)="editProfile()">Edit profile</button>
+                        <button class="accent-color-background text-white font-semibold px-2 py-2 text-xl"
+                            (click)="editProfile()">Edit profile</button>
                     </div>
                 </div>
             </div>
@@ -24,9 +28,18 @@
                     <p>{{user.biography}}</p>
                 </div>
                 <div class="flex flex-col gap-1 text-secondary">
-                    <div class="flex items-center justify-start gap-1 text-sm -ml-1" *ngIf="user.birthday"><mat-icon class="scale-90">cake</mat-icon><p>Born on {{user?.birthday}}</p></div>
-                    <div class="flex items-center justify-start gap-1 text-sm -ml-1" ><mat-icon class="scale-90">calendar_month</mat-icon><p>Joined on {{user?.joinedOn}}</p></div>
-                    <div class="flex items-center justify-start gap-1 text-sm -ml-1" *ngIf="user.location"><mat-icon class="scale-90">location_on</mat-icon><p>{{user?.location}}</p></div> 
+                    <div class="flex items-center justify-start gap-1 text-sm -ml-1" *ngIf="user.birthday"><mat-icon
+                            class="scale-90">cake</mat-icon>
+                        <p>Born on {{user?.birthday}}</p>
+                    </div>
+                    <div class="flex items-center justify-start gap-1 text-sm -ml-1"><mat-icon
+                            class="scale-90">calendar_month</mat-icon>
+                        <p>Joined on {{user?.joinedOn}}</p>
+                    </div>
+                    <div class="flex items-center justify-start gap-1 text-sm -ml-1" *ngIf="user.location"><mat-icon
+                            class="scale-90">location_on</mat-icon>
+                        <p>{{user?.location}}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,23 +47,29 @@
             <div class="hidden md:flex w-1/4"></div>
             <div class="flex w-full md:w-1/2 items-center justify-center font-bold">
                 <div class="flex w-full overflow-x-scroll md:overflow-x-hidden">
-                    <div [routerLinkActive]="['active-section']" [routerLink]="['./']" [routerLinkActiveOptions]="{ exact: true }" class="w-full section cursor-pointer border-0 px-4 py-1 flex flex-col justify-center items-center duration-300">
+                    <div [routerLinkActive]="['active-section']" [routerLink]="['./']"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        class="w-full section cursor-pointer border-0 px-4 py-1 flex flex-col justify-center items-center duration-300">
                         <h1>Posts</h1>
                         <h1 class="text-color-accent">{{user.totalPosts}}</h1>
                     </div>
-                    <div class="w-full section cursor-pointer border-0 py-1 px-2 flex flex-col justify-center items-center duration-300">
+                    <div
+                        class="w-full section cursor-pointer border-0 py-1 px-2 flex flex-col justify-center items-center duration-300">
                         <h1>Followers</h1>
                         <h1 class="text-color-accent">{{user.followers}}</h1>
                     </div>
-                    <div class="w-full section cursor-pointer border-0 py-1 px-2 flex flex-col justify-center items-center duration-300">
+                    <div
+                        class="w-full section cursor-pointer border-0 py-1 px-2 flex flex-col justify-center items-center duration-300">
                         <h1>Following</h1>
                         <h1 class="text-color-accent">{{user.following}}</h1>
                     </div>
-                    <div [routerLinkActive]="['active-section']" [routerLink]="['./liked']" class="w-full section cursor-pointer py-1 px-1 flex flex-col justify-center items-center duration-300">
+                    <div [routerLinkActive]="['active-section']" [routerLink]="['./liked']"
+                        class="w-full section cursor-pointer py-1 px-1 flex flex-col justify-center items-center duration-300">
                         <h1>Liked</h1>
                         <h1 class="text-color-accent">{{user.liked}}</h1>
                     </div>
-                    <div [routerLinkActive]="['active-section']" [routerLink]="['./saved']" class="w-full section cursor-pointer py-1 px-1 flex flex-col justify-center items-center duration-300">
+                    <div [routerLinkActive]="['active-section']" [routerLink]="['./saved']"
+                        class="w-full section cursor-pointer py-1 px-1 flex flex-col justify-center items-center duration-300">
                         <h1>Saved</h1>
                         <h1 class="text-color-accent">{{user.saved}}</h1>
                     </div>
@@ -59,10 +78,12 @@
             <div class="w-1/4 hidden md:flex justify-end">
                 <div>
                     <div class="flex w-full h-full items-center justify-end gap-2" *ngIf="!isCurrentUser">
-                        <button class="accent-color-background font-semibold rounded-sm px-2 py-2 text-xl text-white" (click)="followUser()">{{user.followed ? "Unfollow" : "Follow"}}</button>
+                        <button class="accent-color-background font-semibold px-2 py-2 text-xl text-white"
+                            (click)="followUser()">{{user.followed ? "Unfollow" : "Follow"}}</button>
                     </div>
                     <div class="flex w-full h-full items-center justify-center gap-2" *ngIf="isCurrentUser">
-                        <button class="accent-color-background text-white font-semibold rounded-sm px-4 py-2 text-xl" (click)="editProfile()">Edit profile</button>
+                        <button class="accent-color-background text-white font-semibold px-4 py-2 text-xl"
+                            (click)="editProfile()">Edit profile</button>
                     </div>
                 </div>
             </div>
@@ -75,33 +96,56 @@
         <div class="w-full md:w-2/3 xl:w-1/2">
             <div class="fixed w-screen h-screen top-0 left-0 z-50" *ngIf="isEditing">
                 <div class="z-50 relative w-full h-full flex items-center justify-center">
-                    <div class="fixed w-screen h-full bg-opacity-10 backdrop-blur-sm top-0 left-0 z-40" (click)="editProfile()"></div>
-                    <div class="profile-edit z-50 w-full h-full md:h-auto overflow-y-scroll overflow-x-hidden md:overflow-hidden md:mx-1 px-1 xl:mx-0 xl:px-0 xl:w-1/2 max-w-xl md:rounded-xl flex flex-col gap-2 py-2 relative ">
+                    <div class="fixed w-screen h-full bg-opacity-10 backdrop-blur-sm top-0 left-0 z-40"
+                        (click)="editProfile()"></div>
+                    <div
+                        class="profile-edit z-50 w-full h-full md:h-auto overflow-y-scroll overflow-x-hidden md:overflow-hidden md:mx-1 px-1 xl:mx-0 xl:px-0 xl:w-1/2 max-w-xl md:rounded-xl flex flex-col gap-2 py-2 relative ">
                         <div class="flex items-center justify-start ml-2 py-1">
-                            <div class="flex items-center justify-center cursor-pointer" (click)="editProfile()"><mat-icon class="scale-100">close</mat-icon></div>
+                            <div class="flex items-center justify-center cursor-pointer" (click)="editProfile()">
+                                <mat-icon class="scale-100">close</mat-icon>
+                            </div>
                             <h1 class="text-xl font-bold px-4 ">Edit profile</h1>
                         </div>
                         <div class="relative mb-16 px-1">
                             <div class="relative">
                                 <div class="absolute -bottom-16 z-10 left-2 flex">
                                     <div class="relative">
-                                        <div class="absolute w-full h-full rounded-full flex items-center justify-center bg-black bg-opacity-20">
-                                            <label class="rounded-full px-3 py-3 bg-neutral-600 bg-opacity-60 backdrop-blur-sm flex hover:scale-110 cursor-pointer transition-all duration-200" for="pfpInput"><mat-icon class="scale-125 text-white">camera</mat-icon></label>
-                                            <input class="w-0 h-0" id="pfpInput" type="file" (change)="onProfilePicChange($event)" accept="image/png, image/jpeg"/>
+                                        <div
+                                            class="absolute w-full h-full rounded-full flex items-center justify-center bg-black bg-opacity-20">
+                                            <label
+                                                class="rounded-full px-3 py-3 bg-neutral-600 bg-opacity-60 backdrop-blur-sm flex hover:scale-110 cursor-pointer transition-all duration-200"
+                                                for="pfpInput"><mat-icon
+                                                    class="scale-125 text-white">camera</mat-icon></label>
+                                            <input class="w-0 h-0" id="pfpInput" type="file"
+                                                (change)="onProfilePicChange($event)" accept="image/png, image/jpeg" />
                                         </div>
-                                        <div *ngIf="newPictureB64" class="h-32 w-32 rounded-full" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url(' + newPictureB64 + ')'"></div>
-                                        <div *ngIf="!newPictureB64" class="h-32 w-32 rounded-full" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url(' + user.profilePicture + ')'"></div>
+                                        <div *ngIf="newPictureB64" class="h-32 w-32 rounded-full"
+                                            [style.background]="'center no-repeat'" [style.background-size]="'cover'"
+                                            [style.backgroundImage]="'url(' + newPictureB64 + ')'"></div>
+                                        <div *ngIf="!newPictureB64" class="h-32 w-32 rounded-full"
+                                            [style.background]="'center no-repeat'" [style.background-size]="'cover'"
+                                            [style.backgroundImage]="'url(' + user.profilePicture + ')'"></div>
                                     </div>
                                 </div>
-                                <div *ngIf="newBgB64" class="h-52" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url(' + newBgB64 + ')'"></div>
-                                <div *ngIf="!newBgB64">
-                                    <div *ngIf="user?.backgroundPicture" class="h-52" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url(' + user?.backgroundPicture + ')'"></div>
-                                    <div *ngIf="!user?.backgroundPicture" class="h-52 bg-gradient-to-r from-green-500 to-green-700"></div>
+                                <div *ngIf="newBgB64" class="h-52" [style.background]="'center no-repeat'"
+                                    [style.background-size]="'cover'" [style.backgroundImage]="'url(' + newBgB64 + ')'">
                                 </div>
-                                <div class="absolute w-full h-full bg-black top-0 left-0 bg-opacity-40 flex gap-4 items-center justify-center">
-                                    <div class="rounded-full bg-neutral-600 bg-opacity-60 backdrop-blur-sm flex hover:scale-110 transition-all duration-200 items-center justify-center">
-                                        <label class="flex items-center justify-center px-3 py-3 cursor-pointer" for="bgInput"><mat-icon class="scale-125 text-white">camera</mat-icon></label>
-                                        <input class="w-0 h-0 absolute" id="bgInput" type="file" (change)="onBackgroundChange($event)" accept="image/png, image/jpeg"/>
+                                <div *ngIf="!newBgB64">
+                                    <div *ngIf="user?.backgroundPicture" class="h-52"
+                                        [style.background]="'center no-repeat'" [style.background-size]="'cover'"
+                                        [style.backgroundImage]="'url(' + user?.backgroundPicture + ')'"></div>
+                                    <div *ngIf="!user?.backgroundPicture"
+                                        class="h-52 bg-gradient-to-r from-blue-500 to-blue-700"></div>
+                                </div>
+                                <div
+                                    class="absolute w-full h-full bg-black top-0 left-0 bg-opacity-40 flex gap-4 items-center justify-center">
+                                    <div
+                                        class="rounded-full bg-neutral-600 bg-opacity-60 backdrop-blur-sm flex hover:scale-110 transition-all duration-200 items-center justify-center">
+                                        <label class="flex items-center justify-center px-3 py-3 cursor-pointer"
+                                            for="bgInput"><mat-icon
+                                                class="scale-125 text-white">camera</mat-icon></label>
+                                        <input class="w-0 h-0 absolute" id="bgInput" type="file"
+                                            (change)="onBackgroundChange($event)" accept="image/png, image/jpeg" />
                                     </div>
                                 </div>
                             </div>
@@ -109,29 +153,39 @@
                         <form [formGroup]="profileForm" class="w-full flex flex-col gap-2 px-4">
                             <div class="flex flex-col gap-1">
                                 <p class="font-semibold">Username</p>
-                                <input name="username" [formControlName]="'username'" type="text" rows="1" class="text-input w-full text-md max-h-24 rounded-md text-sm md:text-md px-2 py-3" placeholder='Username' id="input-form"/>
+                                <input name="username" [formControlName]="'username'" type="text" rows="1"
+                                    class="text-input w-full text-md max-h-24 rounded-md text-sm md:text-md px-2 py-3"
+                                    placeholder='Username' id="input-form" />
                             </div>
                             <div class="flex flex-col gap-1">
                                 <p class="font-semibold">Biography</p>
                                 <div class="relative">
-                                    <textarea name="postText" [formControlName]="'biography'" type="text" rows="3" class="text-input w-full text-md max-h-24 rounded-md text-sm md:text-md px-2 py-3 resize-none border-none" placeholder='Biography - Max 200 characters' id="input-form" (input)="handleBioInput($event)"></textarea>
-                                    <p *ngIf="biographyCharCount > 0" [ngClass]=" biographyCharCount > 250 ? 'text-red-500' : 'text-neutral-500' " class="absolute right-6 bottom-2  text-sm">{{biographyCharCount}}/250</p>
+                                    <textarea name="postText" [formControlName]="'biography'" type="text" rows="3"
+                                        class="text-input w-full text-md max-h-24 rounded-md text-sm md:text-md px-2 py-3 resize-none border-none"
+                                        placeholder='Biography - Max 200 characters' id="input-form"
+                                        (input)="handleBioInput($event)"></textarea>
+                                    <p *ngIf="biographyCharCount > 0"
+                                        [ngClass]=" biographyCharCount > 250 ? 'text-red-500' : 'text-neutral-500' "
+                                        class="absolute right-6 bottom-2  text-sm">{{biographyCharCount}}/250</p>
                                 </div>
                             </div>
                             <div class="flex flex-col gap-1">
                                 <p class="font-semibold">Where are you right now?</p>
-                                <textarea name="postText" [formControlName]="'location'" type="text" rows="1" class="text-input w-full text-md max-h-24 rounded-md text-sm md:text-md px-2 py-3" placeholder='Location' id="input-form"></textarea>
+                                <textarea name="postText" [formControlName]="'location'" type="text" rows="1"
+                                    class="text-input w-full text-md max-h-24 rounded-md text-sm md:text-md px-2 py-3"
+                                    placeholder='Location' id="input-form"></textarea>
                             </div>
                             <div>
                                 <p class="font-semibold">When were you born?</p>
-                                <input class="date-input rounded-md px-4 py-2 cursor-pointer" id="requestdate" type="date" formControlName="birthday" />
+                                <input class="date-input rounded-md px-4 py-2 cursor-pointer" id="requestdate"
+                                    type="date" formControlName="birthday" />
                             </div>
                         </form>
                         <div class="px-4 flex gap-2 justify-end text-white">
-                            <div class="red-button px-5 py-2 rounded-full cursor-pointer" (click)="discardEdit()">
+                            <div class="red-button px-5 py-2 cursor-pointer" (click)="discardEdit()">
                                 <p class="font-semibold">Discard</p>
                             </div>
-                            <div class="green-button px-5 py-2 rounded-full cursor-pointer" (click)="submitEdit()">
+                            <div class="green-button px-5 py-2 cursor-pointer" (click)="submitEdit()">
                                 <p class="font-semibold">Save</p>
                             </div>
                         </div>
@@ -141,6 +195,9 @@
             <div class="flex flex-col mt-4" *ngIf="user" id="router-outlet-profile">
                 <router-outlet></router-outlet>
             </div>
+        </div>
+        <div class="hidden md:flex justify-end w-1/4 sticky top-16 mt-2">
+            <app-suggested-profiles></app-suggested-profiles>
         </div>
     </div>
 </div>

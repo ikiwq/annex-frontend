@@ -1,7 +1,8 @@
-<div class="header h-14 px-2 w-full fixed top-0 z-20">
+<div class="header h-12 px-2 w-full fixed top-0 z-20">
     <div class="container max-w-7xl mx-auto flex justify-between h-full">
         <div class="flex items-center justify-center gap-4">
-            <div class="md:hidden px-2 flex justify-center items-center" [ngClass]="seeBack ? 'flex' : 'hidden'" (click)="navigateBack()">
+            <div class="md:hidden px-2 flex justify-center items-center" [ngClass]="seeBack ? 'flex' : 'hidden'"
+                (click)="navigateBack()">
                 <mat-icon>arrow_back_ios</mat-icon>
             </div>
             <a routerLink="/" class="md:flex" [ngClass]="seeLogo ? 'flex' : 'hidden'">
@@ -13,45 +14,70 @@
         </div>
         <ng-template #loginContent>
             <div class="flex gap-2 justify-center items-center">
-                <a routerLink="/login"><button class="px-2 py-1 rounded-md button-accent-border transition-all duration-300">Login</button></a>
-                <a routerLink="/register"><button class="px-2 py-1 button-accent font-semibold text-white rounded-md duration-300">Sign Up</button></a>
+                <a routerLink="/login"><button
+                        class="px-4 py-1 rounded-sm button-accent-border transition-all duration-300">Login</button></a>
+                <a routerLink="/register"><button
+                        class="px-3 py-1.5 rounded-sm button-accent font-semibold text-white duration-300">Sign
+                        Up</button></a>
             </div>
         </ng-template>
         <div *ngIf="user != null; else loginContent" class="flex items-center justify-center gap-2">
             <app-notifications></app-notifications>
-            <div class="header-profile flex items-center justify-end gap-4 relative md:px-1 md:py-1 rounded-full">
-                <div class="cursor-pointer flex items-center justify-center gap-2" (click)="toggleMenu()" #profilePic>
-                    <div class="h-11 w-11 md:h-10 md:w-10 rounded-full profile-image-no-shadow" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url(' + user?.profilePicture + ')'"></div>
-                    <div class="hidden md:flex justify-center items-center">
+            <div class="header-profile flex items-center justify-end gap-4 relative rounded-full">
+                <div class="cursor-pointer flex items-center justify-center gap-1" (click)="toggleMenu()" #profilePic>
+                    <div class="h-11 w-11 md:h-10 md:w-10 rounded-full profile-image-no-shadow"
+                        [style.background]="'center no-repeat'" [style.background-size]="'cover'"
+                        [style.backgroundImage]="'url(' + user?.profilePicture + ')'"></div>
+                    <div class="hidden justify-center items-center">
                         <p class="text-md">{{user?.username}}</p>
-                        <mat-icon class="transition-all duration-300" [ngClass]="isMenuShown && 'rotate-180'">expand_more</mat-icon>
+                        <mat-icon class="transition-all duration-300"
+                            [ngClass]="isMenuShown && 'rotate-180'">expand_more</mat-icon>
                     </div>
                 </div>
-                <div class="header-menu hidden transition-all duration-300 flex-col absolute top-14 bg-opacity-80 backdrop-blur-sm w-80 rounded-md shadow-neutral-900 shadow-sm mr-1" #menu id="menu">
-                    <div *ngIf="user?.backgroundPicture" class="h-32 rounded-t-md" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="' url(' + user?.backgroundPicture + ')'"></div>
-                    <div *ngIf="!user?.backgroundPicture" [ngClass]="isDarkMode ? 'from-green-500 to-green-700' : 'from-blue-500 to-blue-700'" class="h-32 rounded-t-md bg-gradient-to-r"></div>
+                <div class="header-menu hidden transition-all duration-300 flex-col absolute top-11 bg-opacity-80 backdrop-blur-sm w-80 rounded-md shadow-neutral-900 shadow-sm mr-1"
+                    #menu id="menu">
+                    <div *ngIf="user?.backgroundPicture" class="h-32 rounded-t-md"
+                        [style.background]="'center no-repeat'" [style.background-size]="'cover'"
+                        [style.backgroundImage]="' url(' + user?.backgroundPicture + ')'"></div>
+                    <div *ngIf="!user?.backgroundPicture"
+                        class="h-32 rounded-t-md bg-gradient-to-r from-blue-500 to-blue-700"></div>
                     <div class="px-4">
-                        <div class="relative flex justify-center items-center gap-2 py-2 border-b border-neutral-500 cursor-pointer" routerLink='/profile/{{user.username}}' (click)="closeMenu()">
-                            <img class="absolute h-16 w-16 rounded-full object-cover -top-8" src='{{user?.profilePicture}}'/>
+                        <div class="relative flex justify-center items-center gap-2 py-2 border-b border-neutral-500 cursor-pointer"
+                            routerLink='/profile/{{user.username}}' (click)="closeMenu()">
+                            <img class="absolute h-16 w-16 rounded-full object-cover -top-8"
+                                src='{{user?.profilePicture}}' />
                             <p class="text-xl font-semibold mt-8">{{user?.username}}</p>
                         </div>
                         <div class="flex flex-col py-2">
-                            <div class="button flex gap-4 rounded-md items-center justify-start px-1 my-1 py-1 cursor-pointer" routerLink='/profile/{{user.username}}' (click)="closeMenu()">
-                                <div class="flex items-center justify-center px-1 py-1 rounded-full"><mat-icon class="text-neutral-200 primary-icon">person</mat-icon></div><p>Your profile</p>
+                            <div class="button flex gap-4 rounded-md items-center justify-start px-1 my-1 py-1 cursor-pointer"
+                                routerLink='/profile/{{user.username}}' (click)="closeMenu()">
+                                <div class="flex items-center justify-center px-1 py-1 rounded-full"><mat-icon
+                                        class="text-neutral-200 primary-icon">person</mat-icon></div>
+                                <p>Your profile</p>
                             </div>
                             <div class="flex items-center justify-between rounded-md">
-                                <div class="flex gap-4 items-center justify-start px-1 mt-2 my-1 py-1 cursor-pointer transition-all duration-300">
-                                    <div class="flex items-center justify-center px-1 py-1 rounded-full "><mat-icon class="text-neutral-200 primary-icon">dark_mode</mat-icon></div><p>Dark mode</p>
+                                <div
+                                    class="flex gap-4 items-center justify-start px-1 mt-2 my-1 py-1 cursor-pointer transition-all duration-300">
+                                    <div class="flex items-center justify-center px-1 py-1 rounded-full "><mat-icon
+                                            class="text-neutral-200 primary-icon">dark_mode</mat-icon></div>
+                                    <p>Dark mode</p>
                                 </div>
-                                <div> 
-                                    <app-switch class="" [BooleanCondition]="isDarkMode" (change)="toggleDarkMode()"></app-switch>
+                                <div>
+                                    <app-switch class="" [BooleanCondition]="isDarkMode"
+                                        (change)="toggleDarkMode()"></app-switch>
                                 </div>
                             </div>
-                            <div class="button flex gap-4 rounded-md items-center justify-start px-1 mt-2 my-1 py-1 cursor-pointer" [routerLink]="'/help'">
-                                <div class="flex items-center justify-center px-1 py-1 rounded-full "><mat-icon class="text-neutral-200 primary-icon">help</mat-icon></div><p>Help</p>                         
+                            <div class="button flex gap-4 rounded-md items-center justify-start px-1 mt-2 my-1 py-1 cursor-pointer"
+                                [routerLink]="'/help'">
+                                <div class="flex items-center justify-center px-1 py-1 rounded-full "><mat-icon
+                                        class="text-neutral-200 primary-icon">help</mat-icon></div>
+                                <p>Help</p>
                             </div>
-                            <div class="button flex gap-4 rounded-md items-center justify-start px-1 my-1 py-1 cursor-pointer" (click)="logout()">
-                                <div class="flex items-center justify-center px-1 py-1 rounded-full"><mat-icon class="text-neutral-200 primary-icon">logout</mat-icon></div><p>Logout</p>
+                            <div class="button flex gap-4 rounded-md items-center justify-start px-1 my-1 py-1 cursor-pointer"
+                                (click)="logout()">
+                                <div class="flex items-center justify-center px-1 py-1 rounded-full"><mat-icon
+                                        class="text-neutral-200 primary-icon">logout</mat-icon></div>
+                                <p>Logout</p>
                             </div>
                         </div>
                     </div>

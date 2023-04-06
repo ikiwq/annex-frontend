@@ -9,18 +9,36 @@
                 </div>
                 <div class="flex flex-col w-full">
                     <p class="text-xl">Password</p>
-                    <div class="relative"><input [formControlName] = "'password'" class="auth-input w-full" [type]="showPassword ? 'text' : 'password' " name="password" formControlName="password"><mat-icon class="absolute top-3 right-2 text-color-accent" (click)="togglePassword()">{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon></div>
+                    <div class="relative"><input [formControlName]="'password'" class="auth-input w-full"
+                            [type]="showPassword ? 'text' : 'password' " name="password"
+                            formControlName="password"><mat-icon class="absolute top-3 right-2 text-color-accent"
+                            (click)="togglePassword()">{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </div>
                 </div>
             </div>
-            <button class="font-bold button-accent py-3 rounded-sm flex transition-all duration-300 text-white justify-center items-center max-h-12">
+            <button
+                class="font-bold button-accent py-3 rounded-sm flex transition-all duration-300 text-white justify-center items-center max-h-12">
                 <p *ngIf="!isLoading">Login</p>
                 <div *ngIf="isLoading" class="scale-50">
                     <app-loading></app-loading>
                 </div>
             </button>
-            <div *ngIf="errorMessage" class=" font-semibold flex gap-1 justify-center items-center bg-red-500 px-2 py-2"><p class="text-white break-words min-w-0">{{errorMessage}}</p><mat-icon class="min-w-min text-white">error</mat-icon></div>
+            <div *ngIf="errorMessage"
+                class=" font-semibold flex gap-1 justify-center items-center bg-red-500 px-2 py-2">
+                <p class="text-white break-words min-w-0">{{errorMessage}}</p><mat-icon
+                    class="min-w-min text-white">error</mat-icon>
+            </div>
         </div>
-        <div class="flex items-center justify-center mt-2"><p class="">Don't have an account? <a routerLink="/register"><span class="text-color-accent text-xl font-semibold  hover:cursor-pointer transition-all duration-300">Sign up!</span></a></p></div>
-        <a routerLink="/"><div class="mt-4 flex items-end justify-center hover:cursor-pointer "><mat-icon class=" scale-50">arrow_back_ios</mat-icon><p>Return to home page</p></div></a>
+        <div class="flex items-center justify-center mt-2">
+            <p class="">Don't have an account? <a routerLink="/register"><span
+                        class="text-color-accent text-xl font-semibold  hover:cursor-pointer transition-all duration-300">Sign
+                        up!</span></a></p>
+        </div>
+        <a routerLink="/">
+            <div class="mt-4 flex items-end justify-center hover:cursor-pointer "><mat-icon
+                    class=" scale-50">arrow_back_ios</mat-icon>
+                <p>Return to home page</p>
+            </div>
+        </a>
     </form>
 </div>

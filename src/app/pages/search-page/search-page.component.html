@@ -1,8 +1,8 @@
 <div class="flex flex-col w-full gap-4">
     <div>
-        <app-posts class="" [postList]="postList"></app-posts>
+        <app-post-list class="" [postList]="postList"></app-post-list>
     </div>
     <div class="relative">
         <app-observer (inView)="getPostPage()" class="absolute -top-40"></app-observer>
     </div>
-</div>  
+</div>

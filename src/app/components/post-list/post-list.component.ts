@@ -3,11 +3,11 @@ import { Observable } from 'rxjs';
 import { PostModel } from 'src/app/models/post-model';
 
 @Component({
-  selector: 'app-posts',
-  templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.scss']
+  selector: 'app-post-list',
+  templateUrl: './post-list.component.html',
+  styleUrls: ['./post-list.component.scss']
 })
-export class PostsComponent implements OnInit {
+export class PostListComponent implements OnInit {
   @Input() postList : Observable<PostModel[]>;
 
   constructor() {

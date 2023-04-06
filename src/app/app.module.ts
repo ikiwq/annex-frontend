@@ -12,7 +12,6 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LateralHomebarComponent } from './components/lateral-homebar/lateral-homebar.component';
-import { PostsComponent } from './components/posts/posts.component';
 import { SinglePostComponent } from './components/single-post/single-post.component';
 import { ProfileBarComponent } from './components/profile-bar/profile-bar.component';
 import { ProfileCardComponent } from './components/profile-card/profile-card.component';
@@ -28,7 +27,6 @@ import { UserPostsComponent } from './components/user-posts/user-posts.component
 import { UserLikedComponent } from './components/user-liked/user-liked.component';
 import { UserSavedComponent } from './components/user-saved/user-saved.component';
 import { HelpSectionComponent } from './pages/help-section/help-section.component';
-import { MentionComponent } from './components/mention/mention.component';
 import { HomePostComponent } from './components/home-post/home-post.component';
 import { SearchComponent } from './components/search/search.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
@@ -38,6 +36,10 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { SuggestedTagsComponent } from './components/suggested-tags/suggested-tags.component';
 import { LinkifyPipe } from './utils/linkify/linkify.component';
 import { WithCredentialsInterceptor } from './interceptors/WithCredentialsInterceptor';
+import { SuggestedProfilesComponent } from './components/suggested-profiles/suggested-profiles.component';
+import { ProfileListComponent } from './components/profile-list/profile-list.component';
+import { PostListComponent } from './components/post-list/post-list.component';
+import { WelcomeWidgetComponent } from './components/welcome-widget/welcome-widget.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,6 @@ import { WithCredentialsInterceptor } from './interceptors/WithCredentialsInterc
     RegisterComponent,
     HomeComponent,
     LateralHomebarComponent,
-    PostsComponent,
     SinglePostComponent,
     ProfileBarComponent,
     ProfileCardComponent,
@@ -63,7 +64,6 @@ import { WithCredentialsInterceptor } from './interceptors/WithCredentialsInterc
     UserLikedComponent,
     UserSavedComponent,
     HelpSectionComponent,
-    MentionComponent,
     HomePostComponent,
     SearchComponent,
     SearchPageComponent,
@@ -71,7 +71,11 @@ import { WithCredentialsInterceptor } from './interceptors/WithCredentialsInterc
     MobileSearchComponent,
     NotificationsComponent,
     SuggestedTagsComponent,
-    LinkifyPipe
+    LinkifyPipe,
+    SuggestedProfilesComponent,
+    ProfileListComponent,
+    PostListComponent,
+    WelcomeWidgetComponent
   ],
   imports: [
     BrowserModule,

@@ -1,12 +1,14 @@
 <div class="flex flex-col" *ngIf="currentProfile">
     <div class="mt-2 profile-card ">
         <div>
-            <div *ngIf="!currentProfile?.backgroundPicture" class="h-32 bg-gradient-to-r" [ngClass]="isDarkMode ? 'from-green-500 to-green-700' : 'from-blue-500 to-blue-700'"></div>
+            <div *ngIf="!currentProfile?.backgroundPicture" class="h-32 bg-gradient-to-r from-blue-500 to-blue-700"></div>
             <div *ngIf="currentProfile?.backgroundPicture" class="h-32" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url(' + currentProfile?.backgroundPicture + ')'"></div>
         </div>
         <div class="relative px-2">
             <div class="flex absolute -top-14 items-end gap-2">
-                <div class="h-16 w-16 border-2 profile-image-no-hover rounded-sm" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url(' + currentProfile.profilePicture + ')'"></div>
+                <div class="rounded-sm">
+                    <div class="h-16 w-16 border-2 profile-image-no-hover rounded-sm" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url(' + currentProfile.profilePicture + ')'"></div>
+                </div>
                 <div class="text-center text-xl -mt-1 font-bold">{{currentProfile.username}}</div>
             </div>
             <div class="flex text-xl justify-between mt-6 py-4 font-bold">

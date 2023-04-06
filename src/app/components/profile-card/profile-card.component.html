@@ -1,9 +1,10 @@
-<div class="flex gap-2 py-1 cursor-pointer px-1" [routerLink]="['/profile/', profile.username]">
+<div class="flex gap-2 py-1 cursor-pointer px-1 w-full" [routerLink]="['/profile/', profile.username]">
     <div class="w-14 h-14 flex-shrink-0">
         <img [src]="profile.profilePicture" class="w-14 h-14 object-cover rounded-full">
     </div>
-    <div class="py-1 flex flex-col items-start text-sm">
+    <div class="py-1 flex flex-col items-start text-sm gap-1">
         <p class="text-md font-bold cursor-pointer">{{profile.username}}</p>
-        <p class="line-clamp">{{profile.biography}}</p>
+        <button (click)="followUser(profile, $event)" *ngIf="!profile.followed" class="px-5 py-1 rounded-full button-accent-border transition-all duration-300 font-bold text-color-accent">Follow</button>
+        <button (click)="followUser(profile, $event)" *ngIf="profile.followed" class="px-4 py-1.5 rounded-full button-accent transition-all duration-300 font-bold text-white">Unfollow</button>
     </div>
 </div>
