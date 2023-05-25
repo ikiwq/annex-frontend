@@ -136,5 +136,15 @@ export class SinglePostComponent implements OnInit {
     this.postMenu.nativeElement.style.display = "none";
     this.isPostMenuShown = false;
   }
+
+  processLinks(event : Event){
+    const element : any = event.target;
+    if(element.nodeName === 'A'){
+      event.preventDefault();
+      const link = element.getAttribute('href');
+      this.router.navigate([link]);
+      event.stopPropagation();
+    }
+  }
   
 }

@@ -16,6 +16,8 @@ export class LikedUserPostsComponent implements OnInit {
   public postList = new BehaviorSubject<PostDictionary>({});
   public postIdsList = new BehaviorSubject<number[]>([]);
 
+  public loading : Boolean = false;
+
   private username: string;
 
   ngOnInit(): void {
@@ -32,6 +34,8 @@ export class LikedUserPostsComponent implements OnInit {
         this.postIdsList.next([]);
       })
     })
+
+    this.postService.getLoading().subscribe((bool)=>this.loading = bool);
   }
 
   requestPage() {

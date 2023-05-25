@@ -1,4 +1,9 @@
 <div class="w-full">
     <app-post-list [postListObservable]="postList" [postIdsObservable]="postIdsList"></app-post-list>
     <app-observer (inView)="requestPage()"></app-observer>
+    <h1 class="font-semibold text-center text-2xl mt-20" *ngIf="postIdsList.value.length == 0 && !loading">User has no
+        saved posts yet!</h1>
+    <ng-template *ngIf="loading">
+        <app-loading></app-loading>
+    </ng-template>
 </div>

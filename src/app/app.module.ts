@@ -71,7 +71,7 @@ import { SavedUserPostsComponent } from './components/saved-user-posts/saved-use
     ReccomendedPostsViewComponent,
     UserPostsComponent,
     LikedUserPostsComponent,
-    SavedUserPostsComponent
+    SavedUserPostsComponent,
   ],
   imports: [
     BrowserModule,

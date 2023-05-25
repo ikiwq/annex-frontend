@@ -5,7 +5,7 @@
         <div *ngIf="!user?.backgroundPicture" class="h-64 from-blue-500 to-blue-700 bg-gradient-to-r"></div>
         <div class="flex flex-col px-2 md:hidden ">
             <div class="flex justify-end items-end w-full py-2 relative">
-                <div class="max-w-min border-4 rounded-md profile-image absolute left-0">
+                <div class="max-w-min border-4 rounded-md absolute left-0">
                     <div class="h-32 w-32" [style.background]="'center no-repeat'" [style.background-size]="'cover'"
                         [style.backgroundImage]="'url(' + user.profilePicture + ')'"></div>
                 </div>

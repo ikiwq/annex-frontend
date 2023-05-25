@@ -15,6 +15,7 @@ export class UserPostsComponent implements OnInit {
 
   public postList = new BehaviorSubject<PostDictionary>({});
   public postIdsList = new BehaviorSubject<number[]>([]);
+  public loading : Boolean = false;
 
   private username : string;
 
@@ -31,6 +32,10 @@ export class UserPostsComponent implements OnInit {
         }
         this.postIdsList.next([]);
       })
+    })
+
+    this.postService.getLoading().subscribe((bool)=>{
+      this.loading = bool;
     })
   }
 

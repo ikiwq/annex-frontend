@@ -55,7 +55,7 @@
                         </p>
                     </a>
                 </div>
-                <div class="text-sm break-all" [innerHTML]="this.post.message | Linkify" #messageContainer>
+                <div class="text-sm break-all" (click)="processLinks($event)" [innerHTML]="this.post.message | Linkify" #messageContainer>
                 </div>
                 <div *ngIf="post.imageUrls" class="flex w-full h-96 gap-2 my-2">
                     <div class="flex flex-col w-full gap-2 h-full">
