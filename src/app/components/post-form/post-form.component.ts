@@ -47,19 +47,13 @@ export class PostFormComponent implements OnInit {
   }
 
   public onFileChanged(event : any) : void{
-    if(this.imgCount >= 2){
-      this.tooManyImg = true;
-      return ;
-    }
-
     this.selectedFile = event.target.files[0];
-    this.imgFilesLoad.push(this.selectedFile);
+    this.imgFilesLoad = [this.selectedFile];
     
     let reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (event2) => {
-      this.imgFiles.push(reader.result);
-      this.imgCount++;
+      this.imgFiles = [reader.result];
     }
   }
 

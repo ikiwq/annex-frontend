@@ -2,12 +2,14 @@
     <p class="font-semibold text-lg px-1">Popular tags</p>
     <div class="flex flex-col">
         <tr *ngFor="let tag of tagList | async">
-            <div class="w-full py-2 px-2 flex flex-col" [routerLink]="['/search/', tag.name]">
+            <a [routerLink]="['/search/', tag.name]">
+            <div class="w-full py-2 px-2 flex flex-col" >
                 <p class="font-bold text-md cursor-pointer hover:underline">{{tag.name}}</p>
                 <div class="font-light text-xs">
                     <p>{{tag.postNumber}} posts</p>
                 </div>
             </div>
+        </a>
         </tr>
     </div> 
 </div>

@@ -1,4 +1,5 @@
-<div class="bg-white dark:bg-custom-gray-800 px-2 py-2 w-full md:rounded-xl max-w-2xl cursor-pointer" (click)="goToPost()">
+<div class="bg-white dark:bg-custom-gray-800 px-2 py-2 w-full md:rounded-xl max-w-2xl cursor-pointer"
+    (click)="goToPost()">
     <div class="relative z-30 overflow-shown">
         <div class="bg-neutral-100 dark:bg-custom-gray-700 shadow-neutral-200 dark:shadow-neutral-900 shadow-md z-30 absolute right-1 rounded-md flex-col items-start justify-start font-semibold hidden overflow-hidden py-2"
             #postMenu>
@@ -25,15 +26,18 @@
         (click)="togglePostMenu($event)"></div>
     <div class="flex items-start gap-4 relative">
         <div>
-            <div class="h-12 w-12 rounded-full profile-image-no-shadow" [style.background]="'center no-repeat'"
-                [style.background-size]="'cover'" [style.backgroundImage]="'url(' + post.creatorImage + ')'"
-                (click)="goToCreator($event)"></div>
+            <a [routerLink]="['profile', post.creator]" (click)="goToCreator($event)">
+                <div class="h-12 w-12 rounded-full profile-image-no-shadow" [style.background]="'center no-repeat'"
+                    [style.background-size]="'cover'" [style.backgroundImage]="'url(' + post.creatorImage + ')'"></div>
+            </a>
         </div>
         <div class="flex flex-col gap-2 w-full py-1 -mt-1">
             <div class="">
                 <div class="flex justify-between relative">
                     <div class="flex items-center justify-center gap-2">
-                        <p class="font-semibold text-md post-hover-link" (click)="goToCreator($event)">{{post.creator}}</p>
+                        <a [routerLink]="['profile', post.creator]" (click)="goToCreator($event)">
+                            <p class="font-semibold text-md post-hover-link">{{post.creator}}</p>
+                        </a>
                         <p class="text-xs text-neutral-400">{{post.createdAt}}</p>
                     </div>
                     <div class="flex justify-center items-center gap-2 reply-container relative hover:cursor-pointer"
@@ -45,9 +49,11 @@
                     </div>
                 </div>
                 <div class="flex">
-                    <p class="text-sm hover:underline" *ngIf="post.reply" (click)="goToReplying($event)">Replying to
-                        <span class="text-color-accent">{{post.replyingToUser}}</span></p>
-                    <div></div>
+                    <a [routerLink]="['post', post.replyingToPost]" (click)="goToReplying($event)">
+                        <p class="text-sm hover:underline" *ngIf="post.reply">Replying to
+                            <span class="text-color-accent">{{post.replyingToUser}}</span>
+                        </p>
+                    </a>
                 </div>
                 <div class="text-sm break-all" [innerHTML]="this.post.message | Linkify" #messageContainer>
                 </div>

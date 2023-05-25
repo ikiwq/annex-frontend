@@ -19,7 +19,7 @@
             </form>
         </div>
         <div>
-            <div *ngIf="imgFiles.length == 1" class="flex items-center justify-center mb-2">
+            <div *ngIf="imgFiles.length > 0" class="flex items-center justify-center mb-2">
                 <div class="relative">
                     <div class="flex items-center justify-center rounded-full bg-neutral-400 backdrop-blur-md bg-opacity-20 h-8 w-8 absolute top-2 right-2 cursor-pointer hover:scale-110 transition-all duration-200"><mat-icon class="text-white" (click)="deletePhotoAtIndex(0)">delete</mat-icon></div>
                     <img src='{{imgFiles[0]}}' class="rounded-md"/>

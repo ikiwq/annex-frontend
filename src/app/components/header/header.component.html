@@ -52,14 +52,14 @@
                             <div class="dark:hover:bg-gray-700 hover:bg-neutral-100 duration-100 flex gap-4 rounded-md items-center justify-start px-1 my-1 py-1 cursor-pointer"
                                 routerLink='/profile/{{user.username}}' (click)="closeMenu()">
                                 <div class="flex items-center justify-center px-1 py-1 rounded-full"><mat-icon
-                                        class="text-neutral-200 primary-icon">person</mat-icon></div>
+                                    class="dark:text-neutral-200 text-neutral-600 primary-icon">person</mat-icon></div>
                                 <p>Your profile</p>
                             </div>
                             <div class="flex items-center justify-between rounded-md">
                                 <div
                                     class="flex gap-4 items-center justify-start px-1 mt-2 my-1 py-1 cursor-pointer transition-all duration-300">
                                     <div class="flex items-center justify-center px-1 py-1 rounded-full "><mat-icon
-                                            class="text-neutral-200 primary-icon">dark_mode</mat-icon></div>
+                                        class="dark:text-neutral-200 text-neutral-600 primary-icon">dark_mode</mat-icon></div>
                                     <p>Dark mode</p>
                                 </div>
                                 <div>
@@ -70,7 +70,7 @@
                             <div class="dark:hover:bg-gray-700 hover:bg-neutral-100 flex gap-4 rounded-md items-center justify-start px-1 my-1 py-1 cursor-pointer"
                                 (click)="logout()">
                                 <div class="flex items-center justify-center px-1 py-1 rounded-full"><mat-icon
-                                        class="text-neutral-200 primary-icon">logout</mat-icon></div>
+                                        class="dark:text-neutral-200 text-neutral-600 primary-icon">logout</mat-icon></div>
                                 <p>Logout</p>
                             </div>
                         </div>
