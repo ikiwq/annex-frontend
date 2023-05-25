@@ -5,6 +5,8 @@ import { KeywordToIdsDictionary } from 'src/app/models/models.uni';
 import { CursorPostsResponse, PostDictionary, PostModel } from 'src/app/models/post.models';
 import { SearchRequest } from 'src/app/models/search-request.model';
 import { environment } from 'src/environments/environment';
+import { SharedService } from '../auth/shared/shared.service';
+import { userModel } from 'src/app/models/user.models';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,8 @@ import { environment } from 'src/environments/environment';
 export class PostService {
   postStorage = new BehaviorSubject<PostDictionary>({});
   postMap = new BehaviorSubject<KeywordToIdsDictionary>({});
+
+  currentUser: userModel;
 
   cursors: { [key: string]: number } = {
     reccomended: -1,
@@ -38,8 +42,10 @@ export class PostService {
 
   isLoading = new BehaviorSubject<Boolean>(false);
 
-  constructor(private httpClient: HttpClient) {
-
+  constructor(private httpClient: HttpClient, private authService: SharedService) {
+    this.authService.getCurrentUser().subscribe((user) => {
+      this.currentUser = user;
+    })
   }
 
   //private methods
@@ -78,6 +84,21 @@ export class PostService {
     }
 
     this.postMap.next(newStorage);
+  }
+
+  deleteFromMap(id: number, query : string){
+    
+    let newVals = this.postMap.value;
+    console.log(newVals);
+    if(!newVals[query]) return;
+
+    let index = newVals[query].indexOf(id);
+
+    if (index < 0) return ;
+
+    newVals[query].splice(index, 1);
+
+    this.postMap.next(newVals);
   }
 
   //GET METHODS
@@ -173,7 +194,7 @@ export class PostService {
   //retrieved element id as a cursor, because the post are sort by the interation date of creation.
   //This time, the API will send us an object with the posts and a cursor corrisponding to the last
   //retrieved interaction id.
-  retrievePostByUserInteraction(username : string, queryParam : string){
+  retrievePostByUserInteraction(username: string, queryParam: string) {
     let query: string = username + "-" + queryParam;
 
     if (!this.noElementsLeft[query]) this.noElementsLeft[query] = 0;
@@ -243,7 +264,7 @@ export class PostService {
     let query = id + "-REPLIES"
     return this.httpClient.post<PostModel>(`${environment.apiURL}/api/post/${id}/reply`, postForm).subscribe({
       next: (post) => {
-        this.addItemsToStorage([post], query, "BOTTOM");
+        this.addItemsToStorage([post], query, "TOP");
       },
     });
   }
@@ -282,9 +303,16 @@ export class PostService {
 
   // DELETE METHODS
 
-  deletePost(id: number) {
+  deletePost(id: number, replyingTo : number = -1) {
     return this.httpClient.get(`${environment.apiURL}/api/post/${id}/delete`, { responseType: 'text' }).subscribe({
       next: () => {
+        this.deleteFromMap(id, "reccomended");
+        this.deleteFromMap(id, this.currentUser.username + "-PUBLISHED");
+        this.deleteFromMap(id, this.currentUser.username + "-LIKED");
+        this.deleteFromMap(id, this.currentUser.username + "-SAVED");
+        if(replyingTo >= 0){
+          this.deleteFromMap(id, replyingTo + "-REPLIES");
+        }
       }
     });
   }

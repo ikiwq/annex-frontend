@@ -17,7 +17,7 @@
                     </div>
                     <div class="flex w-full h-full items-end justify-center gap-2" *ngIf="isCurrentUser">
                         <button class="accent-color-background text-white font-semibold px-2 py-2 text-xl"
-                            (click)="editProfile()">Edit profile</button>
+                            (click)="toggleEditMode()">Edit profile</button>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                     </div>
                     <div class="flex w-full h-full items-center justify-center gap-2" *ngIf="isCurrentUser">
                         <button class="dark:bg-white dark:text-black bg-blue-500 rounded-full text-white font-semibold px-4 py-2 text-md"
-                            (click)="editProfile()">Edit profile</button>
+                            (click)="toggleEditMode()">Edit profile</button>
                     </div>
                 </div>
             </div>
@@ -99,11 +99,11 @@
             <div class="fixed w-screen h-screen top-0 left-0 z-50" *ngIf="isEditing">
                 <div class="z-50 relative w-full h-full flex items-center justify-center">
                     <div class="fixed w-screen h-full bg-opacity-10 backdrop-blur-sm top-0 left-0 z-40"
-                        (click)="editProfile()"></div>
+                        (click)="toggleEditMode()"></div>
                     <div
-                        class="bg-white dark:bg-custom-gray-800 shadow-neutral-300 dark:shadow-neutral-700 shadow-sm z-50 w-full h-full md:h-auto overflow-y-scroll overflow-x-hidden md:overflow-hidden md:mx-1 px-1 xl:mx-0 xl:px-0 xl:w-1/2 max-w-xl md:rounded-xl flex flex-col gap-2 py-2 relative ">
+                        class="bg-white dark:bg-custom-gray-800 shadow-neutral-300 dark:shadow-neutral-700 shadow-sm z-50 w-full md:h-4/5 overflow-x-hidden md:mx-1 px-1 xl:mx-0 xl:px-0 xl:w-1/2 max-w-xl md:rounded-xl flex flex-col gap-2 py-2 relative overflow-y-scroll" style="max-height: 750px;">
                         <div class="flex items-center justify-start ml-2 py-1">
-                            <div class="flex items-center justify-center cursor-pointer" (click)="editProfile()">
+                            <div class="flex items-center justify-center cursor-pointer" (click)="toggleEditMode()">
                                 <mat-icon class="scale-100">close</mat-icon>
                             </div>
                             <div class="text-xl font-bold px-4">
@@ -189,19 +189,29 @@
                             <div class="px-5 py-2">
                                 <p class="font-semibold cursor-pointer hover:opacity-80 duration-100 text-black dark:text-white" (click)="discardEdit()">Discard</p>
                             </div>
-                            <div class="bg-blue-500 dark:bg-white dark:text-black px-5 py-2 cursor-pointer rounded-full
-                                hover:opacity-80 duration-100" (click)="submitEdit()">
-                                <p class="font-semibold">Save</p>
+                            <div class="bg-blue-500 dark:bg-white dark:text-black h-10 cursor-pointer rounded-full
+                                hover:opacity-80 duration-100 flex items-center justify-center w-24" (click)="submitEdit()">
+                                <p *ngIf="!loading;else loadingDiv" class="font-semibold">Save</p>
+                                <ng-template #loadingDiv>
+                                    <div class="flex items-center justify-center">
+                                        <div class="lds-ring">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                        </div>
+                                    </div>
+                                </ng-template>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col mt-4 w-full" *ngIf="user" id="router-outlet-profile">
+            <div class="flex flex-col w-full" *ngIf="user" id="router-outlet-profile">
                 <router-outlet></router-outlet>
             </div>
         </div>
-        <div class="hidden lg:flex justify-end w-1/4 sticky top-16 mt-2">
+        <div class="hidden lg:flex justify-end w-1/4 sticky top-16 -mt-2">
             <app-suggested-profiles class="w-full ml-8"></app-suggested-profiles>
         </div>
     </div>

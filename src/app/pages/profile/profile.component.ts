@@ -16,7 +16,7 @@ import { PostService } from 'src/app/services/post/post.service';
 })
 export class ProfileComponent implements OnInit {
   public isDarkMode : Boolean;
-  public isLoading : Boolean = false;
+  public loading : Boolean = false;
 
   public user : userModel;
   public isCurrentUser : boolean = false;
@@ -64,7 +64,7 @@ export class ProfileComponent implements OnInit {
     })
   }
 
-  editProfile(){
+  toggleEditMode(){
     this.isEditing = this.isEditing ? false : true;
   }
 
@@ -86,19 +86,24 @@ export class ProfileComponent implements OnInit {
     editReq.birthday = this.profileForm.get("birthday").value;
 
     userForm.append('jsonString', JSON.stringify(editReq));
+    
+    this.loading = true;
 
     this.userService.editUserProfile(this.user.username, userForm).subscribe({
       next: (newUser)=>{
         this.user = newUser;
         this.sharedService.retrieveUser();
+
+        this.loading = false;
+        if(this.isEditing){
+          this.toggleEditMode();
+        } 
       }
     });
-    
-    this.editProfile();
   }
 
   discardEdit() : void {
-    this.editProfile();
+    this.toggleEditMode();
 
     this.newBg = null;
     this.newBgB64 = null;

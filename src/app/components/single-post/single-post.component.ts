@@ -91,7 +91,11 @@ export class SinglePostComponent implements OnInit {
 
   deletePost(event : Event) : void{
     event.stopPropagation();
-    this.postService.deletePost(this.post.id);
+    if(this.post.replyingToPost){
+      this.postService.deletePost(this.post.id, parseInt(this.post.replyingToPost));
+      return ;
+    }
+    this.postService.deletePost(this.post.id); 
   }
 
   goToCreator(event : Event) : void{
