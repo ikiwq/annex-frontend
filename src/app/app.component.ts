@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SharedService } from './services/auth/shared/shared.service';
-import { DarkModeService} from './services/darkModeService/dark-mode.service';
+import { DarkModeService} from './services/dark-mode-service/dark-mode.service';
 import { PostService } from './services/post/post.service';
 import { UserService } from './services/user/user.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',

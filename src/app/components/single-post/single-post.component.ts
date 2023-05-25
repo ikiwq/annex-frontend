@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { Router} from '@angular/router';
-import { PostModel } from 'src/app/models/post-model';
+import { PostModel } from 'src/app/models/post.models';
 import { SharedService } from 'src/app/services/auth/shared/shared.service';
 import { PostService } from 'src/app/services/post/post.service';
 import { environment } from 'src/environments/environment.prod';
@@ -36,11 +36,6 @@ export class SinglePostComponent implements OnInit {
   }
 
   ngOnInit(): void {  
-    //this.messageContainer.nativeElement.innerHTML = this.post.message; SUPER DANGEROUS!!!!
-
-    this.isPostLiked = this.post.liked;
-    this.isPostSaved = this.post.saved;
-
     if(this.authService.getCurrentUser().value == null){
       this.isAuthor = false;
       return ;
@@ -59,17 +54,8 @@ export class SinglePostComponent implements OnInit {
       return ; 
     }
 
-    this.postService.likePost(this.post.id).subscribe({
-      next: ()=>{
-        if(this.isPostLiked){
-          this.post.likeCount -= 1;
-          this.isPostLiked = false;
-        }else{
-          this.post.likeCount += 1;
-          this.isPostLiked = true;
-        }
-      }
-    })
+    this.postService.likePost(this.post.id);
+    
     event.stopPropagation();
   }
 
@@ -79,17 +65,8 @@ export class SinglePostComponent implements OnInit {
       return ; 
     }
     
-    this.postService.savePost(this.post.id).subscribe({
-      next: ()=> {
-        if(this.isPostSaved){
-          this.post.saveCount -= 1;
-          this.isPostSaved = false;
-        }else{
-          this.post.saveCount += 1;
-          this.isPostSaved = true;
-        }
-      }
-    })
+    this.postService.savePost(this.post.id);
+    
     event.stopPropagation();
   }
 

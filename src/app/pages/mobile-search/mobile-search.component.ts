@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { userModel } from 'src/app/models/user-model';
+import { userModel } from 'src/app/models/user.models';
 import { SearchService } from 'src/app/services/search/search.service';
 
 @Component({

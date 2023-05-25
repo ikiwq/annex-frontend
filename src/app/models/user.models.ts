@@ -16,5 +16,11 @@ export class userModel {
     following: number;
     liked: number;
     saved: number;
+}
 
+export class UserForm{
+    username : string = "";
+    biography: string = "";
+    location : string = "";
+    birthday : string = "";
 }

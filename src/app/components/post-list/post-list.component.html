@@ -1,5 +1,5 @@
-<div class="w-full flex flex-col gap-2 pb-2">
-    <tr *ngFor="let post of postList | async">
-        <app-single-post [post]="post"></app-single-post>
+<div class="w-full flex flex-col md:gap-1 lg:gap-3">
+    <tr *ngFor="let id of postIdsObservable | async" class="border-t border-neutral-500 md:border-t-0">
+        <app-single-post [post]="postList[id]"></app-single-post>
     </tr>
 </div>

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PostModel } from 'src/app/models/post-model';
+import { PostDictionary } from 'src/app/models/post.models';
 
 @Component({
   selector: 'app-post-list',
@@ -8,12 +8,15 @@ import { PostModel } from 'src/app/models/post-model';
   styleUrls: ['./post-list.component.scss']
 })
 export class PostListComponent implements OnInit {
-  @Input() postList : Observable<PostModel[]>;
+  @Input() postListObservable : Observable<PostDictionary> = new Observable();
+  @Input() postIdsObservable : Observable<number[]> = new Observable();
+
+  postList : PostDictionary = {};
 
   constructor() {
   }
 
   ngOnInit(): void {
-
+    this.postListObservable.subscribe((posts)=>this.postList = posts);
   }
 }

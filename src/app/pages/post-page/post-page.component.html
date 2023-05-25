@@ -1,8 +1,10 @@
 <div>
-    <div class="flex flex-col gap-2 md:gap-2">
+    <div class="flex flex-col md:gap-1 lg:gap-2">
         <app-single-post [post]="mainPost" *ngIf="mainPost"></app-single-post>
+        <div class="border-b md:border-b-0 border-neutral-500"></div>
         <app-post-form [id]="id" *ngIf="isLogged"></app-post-form>
-        <app-post-list [postList]="replies" *ngIf="replies"></app-post-list>
+        <div class="border-t md:border-t-0 border-neutral-500"></div>
+        <app-post-list [postIdsObservable]="postIdsObservable" [postListObservable]="postListObservable"></app-post-list>
     </div>
     <app-observer (inView)="requestReplyPage()"></app-observer>
 </div>

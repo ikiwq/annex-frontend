@@ -11,7 +11,8 @@
                 </div>
                 <div>
                     <div class="flex w-full h-full items-end justify-center gap-2" *ngIf="!isCurrentUser">
-                        <button class="accent-color-background font-semibold rounded-sm px-2 py-2 text-xl text-white"
+                        <button class="dark:bg-white dark:text-black bg-blue-500 rounded-full
+                            accent-color-background font-semibold px-3 py-2 text-md text-white"
                             (click)="followUser()">{{user.followed ? "Unfollow" : "Follow"}}</button>
                     </div>
                     <div class="flex w-full h-full items-end justify-center gap-2" *ngIf="isCurrentUser">
@@ -78,11 +79,12 @@
             <div class="w-1/4 hidden md:flex justify-end">
                 <div>
                     <div class="flex w-full h-full items-center justify-end gap-2" *ngIf="!isCurrentUser">
-                        <button class="accent-color-background font-semibold px-2 py-2 text-xl text-white"
+                        <button class="font-semibold px-3 py-2 text-md text-white
+                        dark:bg-white dark:text-black bg-blue-500 rounded-full"
                             (click)="followUser()">{{user.followed ? "Unfollow" : "Follow"}}</button>
                     </div>
                     <div class="flex w-full h-full items-center justify-center gap-2" *ngIf="isCurrentUser">
-                        <button class="accent-color-background text-white font-semibold px-4 py-2 text-xl"
+                        <button class="dark:bg-white dark:text-black bg-blue-500 rounded-full text-white font-semibold px-4 py-2 text-md"
                             (click)="editProfile()">Edit profile</button>
                     </div>
                 </div>
@@ -99,12 +101,14 @@
                     <div class="fixed w-screen h-full bg-opacity-10 backdrop-blur-sm top-0 left-0 z-40"
                         (click)="editProfile()"></div>
                     <div
-                        class="profile-edit z-50 w-full h-full md:h-auto overflow-y-scroll overflow-x-hidden md:overflow-hidden md:mx-1 px-1 xl:mx-0 xl:px-0 xl:w-1/2 max-w-xl md:rounded-xl flex flex-col gap-2 py-2 relative ">
+                        class="bg-white dark:bg-custom-gray-800 shadow-neutral-300 dark:shadow-neutral-700 shadow-sm z-50 w-full h-full md:h-auto overflow-y-scroll overflow-x-hidden md:overflow-hidden md:mx-1 px-1 xl:mx-0 xl:px-0 xl:w-1/2 max-w-xl md:rounded-xl flex flex-col gap-2 py-2 relative ">
                         <div class="flex items-center justify-start ml-2 py-1">
                             <div class="flex items-center justify-center cursor-pointer" (click)="editProfile()">
                                 <mat-icon class="scale-100">close</mat-icon>
                             </div>
-                            <h1 class="text-xl font-bold px-4 ">Edit profile</h1>
+                            <div class="text-xl font-bold px-4">
+                                <h1>Edit profile</h1>
+                            </div>
                         </div>
                         <div class="relative mb-16 px-1">
                             <div class="relative">
@@ -154,14 +158,14 @@
                             <div class="flex flex-col gap-1">
                                 <p class="font-semibold">Username</p>
                                 <input name="username" [formControlName]="'username'" type="text" rows="1"
-                                    class="text-input w-full text-md max-h-24 rounded-md text-sm md:text-md px-2 py-3"
+                                    class="text-input bg-neutral-100 dark:bg-custom-gray-700 w-full text-md max-h-24 rounded-md text-sm md:text-md px-2 py-3"
                                     placeholder='Username' id="input-form" />
                             </div>
                             <div class="flex flex-col gap-1">
                                 <p class="font-semibold">Biography</p>
                                 <div class="relative">
                                     <textarea name="postText" [formControlName]="'biography'" type="text" rows="3"
-                                        class="text-input w-full text-md max-h-24 rounded-md text-sm md:text-md px-2 py-3 resize-none border-none"
+                                        class="text-input bg-neutral-100 dark:bg-custom-gray-700 w-full text-md max-h-24 rounded-md text-sm md:text-md px-2 py-3 resize-none border-none"
                                         placeholder='Biography - Max 200 characters' id="input-form"
                                         (input)="handleBioInput($event)"></textarea>
                                     <p *ngIf="biographyCharCount > 0"
@@ -172,32 +176,33 @@
                             <div class="flex flex-col gap-1">
                                 <p class="font-semibold">Where are you right now?</p>
                                 <textarea name="postText" [formControlName]="'location'" type="text" rows="1"
-                                    class="text-input w-full text-md max-h-24 rounded-md text-sm md:text-md px-2 py-3"
+                                    class="text-input bg-neutral-100 dark:bg-custom-gray-700 w-full text-md max-h-24 rounded-md text-sm md:text-md px-2 py-3"
                                     placeholder='Location' id="input-form"></textarea>
                             </div>
                             <div>
                                 <p class="font-semibold">When were you born?</p>
-                                <input class="date-input rounded-md px-4 py-2 cursor-pointer" id="requestdate"
+                                <input class="date-input bg-neutral-100 dark:bg-custom-gray-700  rounded-md px-4 py-2 cursor-pointer" id="requestdate"
                                     type="date" formControlName="birthday" />
                             </div>
                         </form>
                         <div class="px-4 flex gap-2 justify-end text-white">
-                            <div class="red-button px-5 py-2 cursor-pointer" (click)="discardEdit()">
-                                <p class="font-semibold">Discard</p>
+                            <div class="px-5 py-2">
+                                <p class="font-semibold cursor-pointer hover:opacity-80 duration-100 text-black dark:text-white" (click)="discardEdit()">Discard</p>
                             </div>
-                            <div class="green-button px-5 py-2 cursor-pointer" (click)="submitEdit()">
+                            <div class="bg-blue-500 dark:bg-white dark:text-black px-5 py-2 cursor-pointer rounded-full
+                                hover:opacity-80 duration-100" (click)="submitEdit()">
                                 <p class="font-semibold">Save</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col mt-4" *ngIf="user" id="router-outlet-profile">
+            <div class="flex flex-col mt-4 w-full" *ngIf="user" id="router-outlet-profile">
                 <router-outlet></router-outlet>
             </div>
         </div>
-        <div class="hidden md:flex justify-end w-1/4 sticky top-16 mt-2">
-            <app-suggested-profiles></app-suggested-profiles>
+        <div class="hidden lg:flex justify-end w-1/4 sticky top-16 mt-2">
+            <app-suggested-profiles class="w-full ml-8"></app-suggested-profiles>
         </div>
     </div>
 </div>

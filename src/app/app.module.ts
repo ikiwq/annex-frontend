@@ -23,11 +23,6 @@ import { SwitchComponent } from './components/switch/switch.component';
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { LateralProfileBarComponent } from './components/lateral-profile-bar/lateral-profile-bar.component';
 import { ObserverComponent } from './components/observer/observer.component';
-import { UserPostsComponent } from './components/user-posts/user-posts.component';
-import { UserLikedComponent } from './components/user-liked/user-liked.component';
-import { UserSavedComponent } from './components/user-saved/user-saved.component';
-import { HelpSectionComponent } from './pages/help-section/help-section.component';
-import { HomePostComponent } from './components/home-post/home-post.component';
 import { SearchComponent } from './components/search/search.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { MobileMenuComponent } from './components/mobile-menu/mobile-menu.component';
@@ -39,7 +34,10 @@ import { WithCredentialsInterceptor } from './interceptors/WithCredentialsInterc
 import { SuggestedProfilesComponent } from './components/suggested-profiles/suggested-profiles.component';
 import { ProfileListComponent } from './components/profile-list/profile-list.component';
 import { PostListComponent } from './components/post-list/post-list.component';
-import { WelcomeWidgetComponent } from './components/welcome-widget/welcome-widget.component';
+import { ReccomendedPostsViewComponent } from './components/reccomended-posts-view/reccomended-posts-view.component';
+import { UserPostsComponent } from './components/user-posts/user-posts.component';
+import { LikedUserPostsComponent } from './components/liked-user-posts/liked-user-posts.component';
+import { SavedUserPostsComponent } from './components/saved-user-posts/saved-user-posts.component';
 
 @NgModule({
   declarations: [
@@ -60,11 +58,6 @@ import { WelcomeWidgetComponent } from './components/welcome-widget/welcome-widg
     UserCardComponent,
     LateralProfileBarComponent,
     ObserverComponent,
-    UserPostsComponent,
-    UserLikedComponent,
-    UserSavedComponent,
-    HelpSectionComponent,
-    HomePostComponent,
     SearchComponent,
     SearchPageComponent,
     MobileMenuComponent,
@@ -75,7 +68,10 @@ import { WelcomeWidgetComponent } from './components/welcome-widget/welcome-widg
     SuggestedProfilesComponent,
     ProfileListComponent,
     PostListComponent,
-    WelcomeWidgetComponent
+    ReccomendedPostsViewComponent,
+    UserPostsComponent,
+    LikedUserPostsComponent,
+    SavedUserPostsComponent
   ],
   imports: [
     BrowserModule,

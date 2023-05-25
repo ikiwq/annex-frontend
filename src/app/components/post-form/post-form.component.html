@@ -1,4 +1,4 @@
-<div class="post-form py-2 px-2 post-form flex max-w-2xl">
+<div class="flex max-w-2xl py-2 px-2 bg-white dark:bg-custom-gray-800 md:rounded-xl">
     <div>
         <div class="flex items-center justify-center">
             <div class="w-12 h-12 rounded-full" [style.background]="'center no-repeat'" [style.background-size]="'cover'" [style.backgroundImage]="'url('+ currentUser.profilePicture +')'"></div>
@@ -9,10 +9,10 @@
             <form [formGroup]="postForm" (submit)="sendPost">
                 <div class="flex items-center justify-around flex-grow-0" *ngIf="currentUser">
                     <div class="w-full px-4 relative">
-                        <textarea name="postText" [formControlName]="'postText'" type="text" rows="1" class="text-input w-full text-md h-auto rounded-md text-sm md:text-md px-2 py-3 transition-none" placeholder='Write anything, {{currentUser.username}}!' id="input-form" (input)="auto_grow()"></textarea>
+                        <textarea name="postText" [formControlName]="'postText'" type="text" rows="1" class="text-input w-full text-md h-auto rounded-md text-sm md:text-md px-2 py-3 transition-none bg-neutral-200 dark:bg-custom-gray-700" placeholder='Write anything, {{currentUser.username}}!' id="input-form" (input)="auto_grow()"></textarea>
                         <p *ngIf="charCount > 0" [ngClass]="charCount > 250 ? 'text-red-500' : '' " class="absolute right-6 bottom-2 text-neutral-500 text-sm">{{charCount}}/250</p>
                     </div>
-                    <div class="accent-color-background flex items-center justify-center rounded-full p-2 hover:weaker-accent-color-background duration-200 cursor-pointer" (click)="sendPost()">
+                    <div class="bg-blue-500 hover:bg-blue-600 flex items-center justify-center rounded-full p-2 duration-100 cursor-pointer" (click)="sendPost()">
                         <button class="flex items-center justify-center"><mat-icon class="text-white">send</mat-icon></button>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
             </div>
             
             <div class="px-4 pt-1 flex">
-                <div class="button flex rounded-full border-neutral-700 border px-3 py-2 hover:cursor-pointer transition-all duration-300">
+                <div class="button flex rounded-full border-neutral-200 dark:border-neutral-700 border px-3 py-2 cursor-pointer transition-all duration-300">
                     <label for="upload-photo" class="flex items-center relative gap-1 justify-center cursor-pointer primary-text"><mat-icon class="text-color-accent">photo</mat-icon>Photo</label>
                     <input type="file" class="w-2" name="photo" id="upload-photo" (change)="onFileChanged($event)" accept="image/png, image/jpeg"/>
                 </div>

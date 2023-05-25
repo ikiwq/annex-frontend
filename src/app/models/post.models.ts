@@ -1,3 +1,12 @@
+export class CursorPostsResponse{
+    cursor : number;
+    posts : PostModel[];
+}
+
+export interface PostDictionary {
+    [key : string] : PostModel;
+}
+
 export class PostModel{
     id: number;
 
@@ -20,4 +29,8 @@ export class PostModel{
     saved : boolean;
 
     createdAt : string;
+}
+
+export class PostRequest{
+    message : string;
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { TagModel } from 'src/app/models/tag-model';
+import { TagModel } from 'src/app/models/tag.models';
 import { TagService } from 'src/app/services/tag/tag.service';
 
 @Component({

@@ -1,6 +1,9 @@
-<div class="flex flex-col w-full gap-4">
-    <div>
-        <app-post-list class="" [postList]="postList"></app-post-list>
+<div class="flex flex-col w-full gap-4" *ngIf="postIdsList.value">
+    <div class="w-full">
+        <div *ngIf="!isLoading && postIdsList.value.length == 0">
+            <h1 class="font-semibold text-xl text-center mt-20">Oops.. seems like there's nothing to see</h1>
+        </div>
+        <app-post-list class="" [postListObservable]="postList" [postIdsObservable]="postIdsList"></app-post-list>
     </div>
     <div class="relative">
         <app-observer (inView)="getPostPage()" class="absolute -top-40"></app-observer>

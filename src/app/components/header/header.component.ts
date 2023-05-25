@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit, ElementRef, ViewChild, Input } from '@
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { SharedService } from 'src/app/services/auth/shared/shared.service';
-import { DarkModeService } from 'src/app/services/darkModeService/dark-mode.service';
+import { DarkModeService } from 'src/app/services/dark-mode-service/dark-mode.service';
 
 @Component({
   selector: 'app-header',

@@ -1,25 +1,26 @@
-<div class="search-bar">
-    <div class="">
-        <form class="flex relative items-center justify-center" [formGroup]="inputGroup" (submit)="goToSearchPage()" #searchInput>
-            <input [formControlName]="'mainInput'" class="search-input px-5 py-2 rounded-full" type="text" placeholder="Search anything!" (input)="searchUser($event)" (focus)="showList()"/>
-            <button class="text-white flex items-center justify-center absolute right-1 accent-color-background rounded-full px-1 py-1">
-                <mat-icon>search</mat-icon>
-            </button>
-        </form>
-        <div #searchMenu class="profile-search-container hidden fixed top-12 w-64 rounded-sm flex-col">
-            <div *ngIf="!isLoading && UserList.value.length <= 0" class="py-2">
-                <p class="text-center">Type in something</p>
-            </div>
-            <div class="flex items-center justify-center py-10 w-full" *ngIf="isLoading">
-                <app-loading></app-loading>
-            </div>
-            <div class="flex flex-col" *ngIf="!isLoading">
-                <tr (click)="hideList()" *ngFor="let user of UserList | async">
-                    <div class="section-smooth-secondary px-2">
-                        <app-profile-card [profile]="user"></app-profile-card>
-                    </div>
-                </tr>
-            </div>
+<div class="search-bar flex items-center">
+    <form class="flex relative items-center justify-center" [formGroup]="inputGroup" (submit)="goToSearchPage()"
+        #searchInput>
+        <input [formControlName]="'mainInput'" class="search-input px-5 py-2 rounded-full dark:bg-custom-gray-700 w-64 focus:w-80 duration-100" type="text"
+            placeholder="Search anything!" (input)="searchUser($event)" (focus)="showList()" />
+        <button
+            class="dark:text-white text-black flex items-center justify-center absolute right-1 accent-color-background rounded-full px-1 py-1">
+            <mat-icon>search</mat-icon>
+        </button>
+    </form>
+    <div #searchMenu class="hidden fixed top-12 w-80 rounded-xl flex-col bg-white dark:bg-custom-gray-800 shadow-sm shadow-neutral-300 dark:shadow-neutral-900">
+        <div *ngIf="!isLoading && UserList.value.length <= 0" class="py-2">
+            <p class="text-center">Type in something</p>
+        </div>
+        <div class="flex items-center justify-center py-10 w-full" *ngIf="isLoading">
+            <app-loading></app-loading>
+        </div>
+        <div class="flex flex-col" *ngIf="!isLoading">
+            <tr (click)="hideList()" *ngFor="let user of UserList | async">
+                <div class="cursor-pointer dark:hover:bg-custom-gray-700 duration-100 px-2">
+                    <app-profile-card [profile]="user" [routerLink]="['', 'profile', user.username]"></app-profile-card>
+                </div>
+            </tr>
         </div>
     </div>
 </div>

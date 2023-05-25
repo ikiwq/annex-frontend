@@ -5,3 +5,8 @@ export class Notification{
     seen : boolean;
     createdAt : string;
 }
+
+export class CursorNotificationsResponse{
+    cursor : number;
+    notifications : Notification[];
+}

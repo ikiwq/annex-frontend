@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/services/auth/shared/shared.service';
-import { LoginRequestPayload } from '../../models/login-request.payload';
+import { LoginRequest } from 'src/app/models/auth.models';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +12,7 @@ import { LoginRequestPayload } from '../../models/login-request.payload';
 export class LoginComponent implements OnInit {
   isLoading : boolean = false;
 
-  private loginRequestPayload : LoginRequestPayload;
+  private loginRequest : LoginRequest;
 
   public showPassword : boolean = false;
 
@@ -24,10 +24,7 @@ export class LoginComponent implements OnInit {
   })
 
   constructor(private sharedService : SharedService, private router : Router) {
-    this.loginRequestPayload = {
-      usercred : '',
-      password: '',
-    }
+    this.loginRequest = new LoginRequest();
   }
 
   ngOnInit(): void {
@@ -42,10 +39,10 @@ export class LoginComponent implements OnInit {
     
     this.errorMessage = null;
     
-    this.loginRequestPayload.usercred = this.loginForm.get('usercred').value;
-    this.loginRequestPayload.password = this.loginForm.get('password').value;
+    this.loginRequest.usercred = this.loginForm.get('usercred').value;
+    this.loginRequest.password = this.loginForm.get('password').value;
 
-    this.sharedService.login(this.loginRequestPayload).subscribe({
+    this.sharedService.login(this.loginRequest).subscribe({
       next: (data)=>{ this.sharedService.retrieveUser(); this.router.navigate([`/`]); this.isLoading = false;},
       error: (err) => {this.errorMessage = err.message; this.isLoading = false;}
     })

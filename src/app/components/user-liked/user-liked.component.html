@@ -1,9 +1,0 @@
-<div class="flex flex-col relative">
-    <div *ngIf="likedList.value.length <= 0 && !isLoading" class="mt-20">
-        <h1 class="text-center text-4xl font-semibold">User has no posts liked!</h1>
-    </div>
-    <app-post-list [postList]="likedList"></app-post-list>
-    <div class="relative">
-        <app-observer (inView)="requestPostPage()" class="absolute -top-40"></app-observer>
-    </div>
-</div>

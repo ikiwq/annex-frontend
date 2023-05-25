@@ -1,8 +1,8 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, NavigationEnd, Route, Router, RouterEvent } from '@angular/router';
-import { BehaviorSubject, every } from 'rxjs';
-import { userModel } from 'src/app/models/user-model';
+import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { userModel } from 'src/app/models/user.models';
 import { SearchService } from 'src/app/services/search/search.service';
 
 @Component({

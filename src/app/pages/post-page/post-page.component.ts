@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { PostDictionary } from 'src/app/models/post.models';
 import { SharedService } from 'src/app/services/auth/shared/shared.service';
 import { PostService } from 'src/app/services/post/post.service';
 
@@ -13,9 +14,11 @@ export class PostPageComponent implements OnInit {
   mainPost : any;
   id: string;
 
-  replies = new BehaviorSubject<any>(null);
   isLoading : Boolean;
   isLogged : Boolean;
+
+  postListObservable = new BehaviorSubject<PostDictionary>({});
+  postIdsObservable = new BehaviorSubject<number[]>([]);
 
   constructor(private postService : PostService, private activatedRoute : ActivatedRoute, private router: Router, private sharedService: SharedService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -34,11 +37,20 @@ export class PostPageComponent implements OnInit {
       } 
 
       this.id = params["id"];
-      this.postService.getPost(this.id).subscribe((postRes) =>{this.mainPost = postRes});
-      this.postService.retrievePostReplies(this.id);
-      this.postService.getPostReplies().subscribe((postRes) =>{this.replies.next(postRes);});
-    })
 
+      this.postService.getPost(this.id).subscribe((postRes) =>{this.mainPost = postRes});
+
+      this.postService.retrievePostReplies(this.id);
+
+      this.postService.getPostsStorage().subscribe((posts)=>{
+        this.postListObservable.next((posts));
+      })
+
+      this.postService.getPostIdsMap().subscribe((ids)=>{
+        let query = this.id + "-REPLIES"
+        this.postIdsObservable.next(ids[query]);
+      })
+    })
   }
 
   requestReplyPage(){

@@ -1,293 +1,290 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CursorPostsResponse } from 'src/app/models/cursor-posts-response.model';
-import { PostModel } from 'src/app/models/post-model';
-import { postRequest } from 'src/app/models/post-request';
+import { KeywordToIdsDictionary } from 'src/app/models/models.uni';
+import { CursorPostsResponse, PostDictionary, PostModel } from 'src/app/models/post.models';
 import { SearchRequest } from 'src/app/models/search-request.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PostService{
-  postList = new BehaviorSubject<PostModel[]>([]);
+export class PostService {
+  postStorage = new BehaviorSubject<PostDictionary>({});
+  postMap = new BehaviorSubject<KeywordToIdsDictionary>({});
 
-  searchList = new BehaviorSubject<PostModel[]>([]);
-  reccomendedPosts = new BehaviorSubject<PostModel[]>([]);
-  repliesPosts = new BehaviorSubject<PostModel[]>([]);
-  profilePosts = new BehaviorSubject<PostModel[]>([]);
-  likedPosts = new BehaviorSubject<PostModel[]>([]);
-  savedPosts = new BehaviorSubject<PostModel[]>([]);
-  tagPosts = new BehaviorSubject<PostModel[]>([]);
-  
-  cursors = {
-    reccomended : -1,
-    reply : -1,
-    search : -1,
-    profile : -1,
-    liked : -1,
-    saved : -1
+  cursors: { [key: string]: number } = {
+    reccomended: -1,
+    reply: -1,
+    search: -1,
+    profile: -1,
+    liked: -1,
+    saved: -1
   }
 
-  noElementsLeft = {
-    reccomended : 0,
-    reply : 0,
-    search : 0,
-    profile : 0,
-    liked : 0,
-    saved : 0
+  noElementsLeft: { [key: string]: number } = {
+    reccomended: 0,
+    reply: 0,
+    search: 0,
+    liked: 0,
+    saved: 0
   }
 
-  repliesPostId : string = "";
-  profileUsername : string = "";
-  search : string = "";
+  page_size = 10;
 
-  isLoading = new BehaviorSubject<Boolean>(true);
+  repliesPostId: string = "";
+  profileUsername: string = "";
+  search: string = "";
 
-  constructor(private httpClient : HttpClient) { 
+  isLoading = new BehaviorSubject<Boolean>(false);
+
+  constructor(private httpClient: HttpClient) {
 
   }
 
-  getLoading(){
-    return this.isLoading;
+  //private methods
+
+  //adds an item to the storage. The function takes in an post array, a category and a position.
+  addItemsToStorage(posts: PostModel[], category: string = "reccomended", position: string = "TOP") {
+    //First, we will take the values from the Behaviour Subject containing all the posts
+    let newStorage = this.postStorage.value;
+    let posts_id: number[] = []; //array to save all the new post id.
+
+    posts.forEach((post) => {
+      newStorage[post.id] = post;
+      posts_id.push(post.id);
+    })
+
+    //if an argument for the category and a position is provided, we can proceed to
+    //add the ids to our postMap
+    if (category !== "-1" && position !== "-1") this.addIndexesToStorage(posts_id, category, position);
+
+    this.postStorage.next(newStorage);
   }
 
-  resetProfileSaves(username : string) {
-    this.profilePosts.next([]);
-    this.likedPosts.next([]);
-    this.savedPosts.next([]);
-
-    this.cursors["profile"] = -1;
-    this.cursors["liked"] = -1;
-    this.cursors["saved"] = -1;
-    
-    this.noElementsLeft["profile"] = 0;
-    this.noElementsLeft["liked"] = 0;
-    this.noElementsLeft["saved"] = 0;
-
-    this.profileUsername = username;
-
-  }
-
-  resetSearch(text : string){
-    if(this.search != text){
-      this.searchList.next([]);
-      this.search = text;
-      this.cursors["search"] = -1;
-      this.noElementsLeft["search"] = 0;
+  addIndexesToStorage(posts_ids: number[], category: string, position: string) {
+    //take the values from the postMap
+    let newStorage = this.postMap.value;
+    //if there isn't yet an array for a specific category, create it.
+    if (!newStorage[category]) {
+      newStorage[category] = [];
     }
+
+    //Push the values depending on the given position
+    if (position == "TOP") {
+      newStorage[category] = [...posts_ids, ...newStorage[category]]
+    } else if (position == "BOTTOM") {
+      newStorage[category] = [...newStorage[category], ...posts_ids]
+    }
+
+    this.postMap.next(newStorage);
   }
 
   //GET METHODS
 
-  getPost(id : string){
+  getLoading() {
+    return this.isLoading;
+  }
+
+  getPost(id: string) {
     this.isLoading.next(false);
     return this.httpClient.get(`${environment.apiURL}/api/post/${id}`);
   }
 
+  getPostsStorage() {
+    return this.postStorage;
+  }
+
+  getPostIdsMap() {
+    return this.postMap;
+  }
+
   retrieveReccomendedPosts() {
-    if(this.noElementsLeft["reccomended"]) return ;
-    this.isLoading.next(true);
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/cursor/${this.cursors["reccomended"]}?pageSize=20`)
+    //if there are no elements left or are we still loading, then just return.
+    if (this.noElementsLeft["reccomended"] == 1 || this.isLoading.value) return;
+
+    this.isLoading.next(true); //Set loading to true to prevent multiple simultaneous requests
+    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/all?cursor=${this.cursors["reccomended"]}&page_size=${this.page_size}`)
       .subscribe({
-        next: (newPosts) => { this.reccomendedPosts.next([...this.reccomendedPosts.value, ...newPosts]);
-          if(newPosts.length == 0){
-            this.noElementsLeft["reccomended"] = 1;
-            return ;
+        next: (newPosts) => {
+          if (newPosts.length == 0) {
+            this.noElementsLeft["reccomended"] = 1; //if the request has returned no new posts, this means there are no more elements to retrieve.
+            return;
           }
-          this.cursors["reccomended"] = this.reccomendedPosts.value[this.reccomendedPosts.value.length - 1].id - 1;},
-        complete: ()=> this.isLoading.next(false)
+          this.cursors["reccomended"] = newPosts[newPosts.length - 1].id; //save the cursor with the last item in the list.
+          this.addItemsToStorage(newPosts, "reccomended", "BOTTOM"); //add the items to the storage.
+        },
+        complete: () => this.isLoading.next(false) // once completed, the loading is complete.
       });
   }
 
-  getReccomendedPosts(){
-    this.postList = this.reccomendedPosts;
-    return this.postList;
-  }
+  retrievePostReplies(id: string) {
+    let query: string = id + "-REPLIES";
 
-  retrievePostReplies(id : string){
-
-    if(id != this.repliesPostId){
-      this.repliesPosts.next([]);
-      this.repliesPostId = id;
-      this.cursors["reply"] = -1;
-      this.noElementsLeft["reply"] = 0;
-    }
-
-    if(this.noElementsLeft["reply"]) return ;
+    if (!this.noElementsLeft[query]) this.noElementsLeft[query] = 0;
+    if (this.noElementsLeft[query]) return;
 
     this.isLoading.next(true);
 
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/${id}/reply?cursor=${this.cursors["reply"]}&pageSize=10`)
+    if (!this.cursors[query]) this.cursors[query] = -1;
+
+    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/post/${id}/reply?cursor=${this.cursors[query]}&pageSize=10`)
       .subscribe({
-        next: (replies)=>{ this.repliesPosts.next([...this.repliesPosts.value, ...replies]);
+        next: (replies) => {
 
-        if(replies.length == 0){
-          this.noElementsLeft["reply"] = 1;
-          return ;
-        }
-
-        if(this.repliesPosts.value.length == 0){
-          this.cursors["reply"] = 0;
-        }else{
-          this.cursors["reply"] = this.repliesPosts.value[this.repliesPosts.value.length - 1].id - 1;
-        }
-      },
-        complete: ()=> this.isLoading.next(false)
+          if (replies.length == 0) {
+            this.noElementsLeft[query] = 1;
+            return;
+          }
+          this.cursors[query] = replies[replies.length - 1].id;
+          this.addItemsToStorage(replies, query, "BOTTOM");
+        },
+        complete: () => this.isLoading.next(false)
       });
   }
 
-  getPostReplies(){
-    this.postList = this.repliesPosts;
-    return this.postList;
-  }
+  retrievePostFromUser(username: string) {
+    let queryParam = "PUBLISHED";
+    let query: string = username + "-" + queryParam;
 
-  retrievePostFromUser(username : string){
-    if(this.noElementsLeft["reccomended"]) return ;
+    if (!this.noElementsLeft[query]) this.noElementsLeft[query] = 0;
+    if (this.noElementsLeft[query]) return;
+
+    if (!this.cursors[query]) this.cursors[query] = -1;
 
     this.isLoading.next(true);
 
-    if(this.profileUsername != username) {
-      this.resetProfileSaves(username);
-    }
-
-    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/user/${username}/posts?cursor=${this.cursors["profile"]}&pageSize=10`)
+    this.httpClient.get<PostModel[]>(`${environment.apiURL}/api/user/${username}/posts?cursor=${this.cursors[query]}&page_size=${this.page_size}`)
       .subscribe({
-        next: (userPosts)=>{ this.profilePosts.next([...this.profilePosts.value, ...userPosts]); 
-          if(userPosts.length == 0){
-            this.noElementsLeft["reccomended"] = 1;
-            return ;
-          };
-          this.cursors["profile"] = this.profilePosts.value[this.profilePosts.value.length - 1].id - 1;
-          },
-        complete: ()=> this.isLoading.next(false)
-      });  
-  }
-
-  getPostFromUser() : Observable<PostModel[]> {
-    this.postList = this.profilePosts;
-    return this.postList;
-  }
-
-  retrieveLikedFromUser(username: string){
-    if(this.noElementsLeft["liked"]) return ;
-    this.isLoading.next(true);
-
-    if(username != this.profileUsername){
-      this.resetProfileSaves(username);
-    }
-
-    this.httpClient.get<CursorPostsResponse>(`${environment.apiURL}/api/user/${username}/liked?cursor=${this.cursors["liked"]}&pageSize=10`)
-      .subscribe({
-        next: (liked)=>{ this.likedPosts.next([...this.likedPosts.value, ...liked.posts]); 
-          if(liked.posts.length == 0){
-            this.noElementsLeft["liked"] = 1;
-            return ;
+        next: (userPosts) => {
+          if (userPosts.length == 0) {
+            this.noElementsLeft[query] = 1;
+            return;
           }
-          this.cursors["liked"] = liked.cursor - 1;},
-        complete: ()=> this.isLoading.next(false)
+          this.cursors[query] = userPosts[userPosts.length - 1].id;
+          console.log()
+          this.addItemsToStorage(userPosts, query, "BOTTOM");
+        },
+        complete: () => this.isLoading.next(false)
       });
   }
 
-  getLikedFromUser(){
-    this.postList = this.likedPosts;
-    return this.postList;
-  }
+  //To retrieve users interaction (likes, saves), we have to follow a different approach. This time we can't use the last
+  //retrieved element id as a cursor, because the post are sort by the interation date of creation.
+  //This time, the API will send us an object with the posts and a cursor corrisponding to the last
+  //retrieved interaction id.
+  retrievePostByUserInteraction(username : string, queryParam : string){
+    let query: string = username + "-" + queryParam;
 
-  retrieveSavedFromUser(username: string){
-    if(this.noElementsLeft["saved"]) return ;
-    
+    if (!this.noElementsLeft[query]) this.noElementsLeft[query] = 0;
+    if (this.noElementsLeft[query]) return;
+
+    if (!this.cursors[query]) this.cursors[query] = -1;
+
     this.isLoading.next(true);
 
-    if(username != this.profileUsername){
-      this.resetProfileSaves(username);
-    }
-
-
-    this.httpClient.get<CursorPostsResponse>(`${environment.apiURL}/api/user/${username}/saved?cursor=${this.cursors["saved"]}&pageSize=10`)
+    this.httpClient.get<CursorPostsResponse>(`${environment.apiURL}/api/user/${username}/${queryParam.toLowerCase()}?cursor=${this.cursors[query]}&page_size=${this.page_size}`)
       .subscribe({
-        next: (saved)=>{ this.savedPosts.next([...this.savedPosts.value, ...saved.posts]); 
-          if(saved.posts.length == 0){
-            this.noElementsLeft["saved"] = 1;
-            return ;
+        next: (userPosts) => {
+          if (userPosts.posts.length == 0) {
+            this.noElementsLeft[query] = 1;
+            return;
           }
-          this.cursors["saved"] = saved.cursor - 1;},
-        complete: ()=> this.isLoading.next(false)
-    });
-
+          this.cursors[query] = userPosts.cursor;
+          console.log()
+          this.addItemsToStorage(userPosts.posts, query, "BOTTOM");
+        },
+        complete: () => this.isLoading.next(false)
+      });
   }
 
-  getSavedFromuser(){
-    this.postList = this.savedPosts;
-    return this.postList;
-  }
+  retrievePostByText(text: string) {
+    let query: string = text + "-SEARCH";
 
-  retrievePostByText(text : string){
-    if(text != this.search) this.resetSearch(text);
-    if(this.noElementsLeft["search"]) return ;
-    
+    if (!this.noElementsLeft[query]) this.noElementsLeft[query] = 0;
+    if (this.noElementsLeft[query] == 1) return;
+
+    if (!this.cursors[query]) this.cursors[query] = -1;
     this.isLoading.next(true);
 
     let searchRequest = new SearchRequest();
-    searchRequest.cursor = this.cursors["search"];
+    searchRequest.cursor = this.cursors[query];
     searchRequest.text = text;
-    searchRequest.pageSize = 15;
+    searchRequest.pageSize = this.page_size;
 
-    this.httpClient.post<PostModel[]>(`${environment.apiURL}/api/search/post/`, searchRequest).subscribe({
-      next: (posts) => { this.searchList.next([...this.searchList.value, ...posts]);
-        if(posts.length == 0){
-          this.noElementsLeft["search"] = 1;
-          return ;
-        }
-        this.cursors["search"] = this.searchList.value[this.searchList.value.length - 1].id - 1;
+    this.httpClient.post<PostModel[]>(`${environment.apiURL}/api/search/post/`, searchRequest)
+      .subscribe({
+        next: (searches) => {
+
+          if (searches.length == 0) {
+            this.noElementsLeft[query] = 1;
+            return;
+          }
+
+          this.cursors[query] = searches[searches.length - 1].id;
+          this.addItemsToStorage(searches, query, "BOTTOM");
         },
-      complete: ()=> this.isLoading.next(false)
-    });
-  }
-
-  getPostList(){
-    this.postList = this.searchList;
-    return this.postList;
+        complete: () => this.isLoading.next(false)
+      });
   }
 
   //POST METHODS
 
-  uploadPost(postForm : FormData){
+  uploadPost(postForm: FormData) {
     this.httpClient.post<PostModel>(`${environment.apiURL}/api/post/`, postForm)
-    .subscribe((newPost) => this.postList.next([newPost, ...this.postList.getValue()]));
+      .subscribe({
+        next: (post) => {
+          this.addItemsToStorage([post], "reccomended", "TOP");
+        },
+      });
   }
 
-  replyToPost(postForm : FormData, id: string){
-    return this.httpClient.post<PostModel>(`${environment.apiURL}/api/post/${id}/reply`, postForm).subscribe(
-      (newReply)=> this.postList.next([newReply, ...this.postList.getValue()])
-    );
+  replyToPost(postForm: FormData, id: string) {
+    let query = id + "-REPLIES"
+    return this.httpClient.post<PostModel>(`${environment.apiURL}/api/post/${id}/reply`, postForm).subscribe({
+      next: (post) => {
+        this.addItemsToStorage([post], query, "BOTTOM");
+      },
+    });
   }
 
-  likePost(id : number) : Observable<any>{
-    return this.httpClient.post(`${environment.apiURL}/api/like/post/${id}`, 'like', {responseType: 'text'});
+  likePost(id: number): void {
+    this.httpClient.post(`${environment.apiURL}/api/like/post/${id}`, 'like', { responseType: 'text' }).subscribe({
+      next: (res) => {
+        let newStorage = this.postStorage.value;
+        if (newStorage[id].liked) {
+          newStorage[id].liked = false;
+          newStorage[id].likeCount -= 1;
+        } else {
+          newStorage[id].liked = true;
+          newStorage[id].likeCount += 1;
+        }
+        this.postStorage.next(newStorage);
+      }
+    });
   }
 
-  savePost(id : number) : Observable<any>{
-    return this.httpClient.post(`${environment.apiURL}/api/save/${id}`, 'save', {responseType: 'text'});
+  savePost(id: number): void {
+    this.httpClient.post(`${environment.apiURL}/api/save/${id}`, 'save', { responseType: 'text' }).subscribe({
+      next: (res) => {
+        let newStorage = this.postStorage.value;
+        if (newStorage[id].saved) {
+          newStorage[id].saved = false;
+          newStorage[id].saveCount -= 1;
+        } else {
+          newStorage[id].saved = true;
+          newStorage[id].saveCount += 1;
+        }
+        this.postStorage.next(newStorage);
+      }
+    });
   }
 
   // DELETE METHODS
 
-  deletePost(id : number) {
-    return this.httpClient.get(`${environment.apiURL}/api/post/${id}/delete`, {responseType: 'text'}).subscribe({
-      next: ()=>{
-        const newArr = this.postList.getValue();
-        newArr.forEach((item, index)=>{
-          if (item.id == id) newArr.splice(index, 1)
-        })
-        this.postList.next(newArr);
-
-        const newArr2 = this.reccomendedPosts.getValue();
-        newArr2.forEach((item, index)=>{
-          if (item.id == id) newArr2.splice(index, 1)
-        })
-        this.reccomendedPosts.next(newArr2);
+  deletePost(id: number) {
+    return this.httpClient.get(`${environment.apiURL}/api/post/${id}/delete`, { responseType: 'text' }).subscribe({
+      next: () => {
       }
     });
   }

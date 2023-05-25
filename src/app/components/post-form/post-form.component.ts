@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from 'src/app/services/auth/shared/shared.service';
-import { postRequest } from 'src/app/models/post-request';
+import { PostRequest } from 'src/app/models/post.models';
 import { PostService } from 'src/app/services/post/post.service';
-import { userModel } from 'src/app/models/user-model';
+import { userModel } from 'src/app/models/user.models';
 
 @Component({
   selector: 'app-post-form',
@@ -86,7 +86,7 @@ export class PostFormComponent implements OnInit {
     if(!this.postForm.valid) return ;
 
     let formData = new FormData();
-    let postReq = new postRequest();
+    let postReq = new PostRequest();
     
     for(let image of this.imgFilesLoad){
       formData.append('images', image);

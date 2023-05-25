@@ -1,4 +1,4 @@
-<div class="header h-12 px-2 w-full fixed top-0 z-20">
+<div class="w-full fixed top-0 z-20 h-12 px-2 backdrop-blur-sm">
     <div class="container max-w-7xl mx-auto flex justify-between h-full">
         <div class="flex items-center justify-center gap-4">
             <div class="md:hidden px-2 flex justify-center items-center" [ngClass]="seeBack ? 'flex' : 'hidden'"
@@ -13,11 +13,11 @@
             <app-search class="hidden md:flex"></app-search>
         </div>
         <ng-template #loginContent>
-            <div class="flex gap-2 justify-center items-center">
+            <div class="flex gap-2 justify-center items-center font-semibold">
                 <a routerLink="/login"><button
-                        class="px-4 py-1 rounded-sm button-accent-border transition-all duration-300">Login</button></a>
+                        class="px-4 py-1 rounded-full duration-100 bg-blue-500 dark:bg-white text-black hover:opacity-80">Login</button></a>
                 <a routerLink="/register"><button
-                        class="px-3 py-1.5 rounded-sm button-accent font-semibold text-white duration-300">Sign
+                        class="px-3 py-1 rounded-xl text-white duration-100 hover:opacity-80">Sign
                         Up</button></a>
             </div>
         </ng-template>
@@ -34,13 +34,13 @@
                             [ngClass]="isMenuShown && 'rotate-180'">expand_more</mat-icon>
                     </div>
                 </div>
-                <div class="header-menu hidden transition-all duration-300 flex-col absolute top-11 bg-opacity-80 backdrop-blur-sm w-80 rounded-md shadow-neutral-900 shadow-sm mr-1"
+                <div class="hidden transition-all duration-300 flex-col absolute top-11 w-80 rounded-xl mr-1 bg-white dark:bg-custom-gray-800 shadow-sm shadow-neutral-300 dark:shadow-neutral-900"
                     #menu id="menu">
-                    <div *ngIf="user?.backgroundPicture" class="h-32 rounded-t-md"
+                    <div *ngIf="user?.backgroundPicture" class="h-24 rounded-t-md"
                         [style.background]="'center no-repeat'" [style.background-size]="'cover'"
                         [style.backgroundImage]="' url(' + user?.backgroundPicture + ')'"></div>
                     <div *ngIf="!user?.backgroundPicture"
-                        class="h-32 rounded-t-md bg-gradient-to-r from-blue-500 to-blue-700"></div>
+                        class="h-24 rounded-t-md bg-gradient-to-r from-blue-500 to-blue-700"></div>
                     <div class="px-4">
                         <div class="relative flex justify-center items-center gap-2 py-2 border-b border-neutral-500 cursor-pointer"
                             routerLink='/profile/{{user.username}}' (click)="closeMenu()">
@@ -49,7 +49,7 @@
                             <p class="text-xl font-semibold mt-8">{{user?.username}}</p>
                         </div>
                         <div class="flex flex-col py-2">
-                            <div class="button flex gap-4 rounded-md items-center justify-start px-1 my-1 py-1 cursor-pointer"
+                            <div class="dark:hover:bg-gray-700 hover:bg-neutral-100 duration-100 flex gap-4 rounded-md items-center justify-start px-1 my-1 py-1 cursor-pointer"
                                 routerLink='/profile/{{user.username}}' (click)="closeMenu()">
                                 <div class="flex items-center justify-center px-1 py-1 rounded-full"><mat-icon
                                         class="text-neutral-200 primary-icon">person</mat-icon></div>
@@ -67,13 +67,7 @@
                                         (change)="toggleDarkMode()"></app-switch>
                                 </div>
                             </div>
-                            <div class="button flex gap-4 rounded-md items-center justify-start px-1 mt-2 my-1 py-1 cursor-pointer"
-                                [routerLink]="'/help'">
-                                <div class="flex items-center justify-center px-1 py-1 rounded-full "><mat-icon
-                                        class="text-neutral-200 primary-icon">help</mat-icon></div>
-                                <p>Help</p>
-                            </div>
-                            <div class="button flex gap-4 rounded-md items-center justify-start px-1 my-1 py-1 cursor-pointer"
+                            <div class="dark:hover:bg-gray-700 hover:bg-neutral-100 flex gap-4 rounded-md items-center justify-start px-1 my-1 py-1 cursor-pointer"
                                 (click)="logout()">
                                 <div class="flex items-center justify-center px-1 py-1 rounded-full"><mat-icon
                                         class="text-neutral-200 primary-icon">logout</mat-icon></div>

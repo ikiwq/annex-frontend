@@ -34,15 +34,6 @@
     --color-accent-weaker: rgb(96 165 250);
 }
 
-.accent-color-background{
-    background-color: var(--color-accent);
-    transition: all;
-    transition-duration: 200ms;
-    &:hover{
-        background-color: var(--color-accent-weaker);
-    }
-}
-
 .text-color-accent{
     color: var(--color-accent);
 }
@@ -60,7 +51,6 @@
 }
 
 .body{
-    background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
     transition-duration: 300ms;
 }
@@ -142,8 +132,6 @@
     resize: none;
     overflow: hidden;
     outline: none;
-    background-color: var(--color-bg-third);
-    color: var(--primary-text);
     transition-duration: 300ms;
 }
 
@@ -276,7 +264,6 @@
 }
 
 .search-input{
-    background-color: var(--color-bg-third);
     &:focus{
         outline: none;
     }
