@@ -135,6 +135,24 @@
     background-color: var(--color-accent);
 }
 
+.auth-input{
+    font-size: 18px;
+    padding: 10px 0px;
+    background-color: var(--color-bg-third);
+    border-radius: 2px;
+    border-color: rgba(255, 0, 0, 0);
+    border-width: 2px;
+    padding-left: 4px;
+
+    transition: all;
+    transition-duration: 300ms;
+
+    &:focus{
+        outline: none;
+    }
+
+}
+
 .auth-input-wrong{
     border-color: rgba(255, 0, 0, 255);
     transition: all;
