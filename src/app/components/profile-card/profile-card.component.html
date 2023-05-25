@@ -1,17 +1,23 @@
 <div class="flex items-center gap-4 py-1 px-1 w-full relative">
     <div class="w-14 h-14 flex-shrink-0">
-        <img [src]="profile.profilePicture" class="w-14 h-14 object-cover rounded-full cursor-pointer hover:opacity-80 duration-100 "
-        [routerLink]="['/profile/', profile.username]"/>
+        <a [routerLink]="['/profile/', profile.username]">
+            <img [src]="profile.profilePicture"
+                class="w-14 h-14 object-cover rounded-full cursor-pointer hover:opacity-80 duration-100 " />
+        </a>
     </div>
     <div class="py-1 flex flex-col items-start text-sm gap-1">
-        <p class="text-md font-semibold cursor-pointer w-32 text-ellipsis overflow-hidden hover:underline"
-            [routerLink]="['/profile/', profile.username]">{{profile.username}}</p>
+        <a [routerLink]="['/profile/', profile.username]">
+            <p class="text-md font-semibold cursor-pointer w-32 text-ellipsis overflow-hidden hover:underline">
+                {{profile.username}}</p>
+        </a>
         <p class="text-md text-neutral-500 dark:text-neutral-400 w-32 text-ellipsis overflow-hidden whitespace-nowrap">
             {{profile.followers + ' followers'}}
         </p>
     </div>
     <div class="absolute right-0 text-white dark:text-black font-bold text-xs">
-        <div (click)="followUser(profile, $event)" *ngIf="!profile.followed" class="px-3 py-3 rounded-3xl bg-blue-500 dark:bg-white cursor-pointer">Follow</div>
-        <div (click)="followUser(profile, $event)" *ngIf="profile.followed" class="text-white px-3 py-3 rounded-3xl bg-red-500 cursor-pointer">Unfollow</div>
+        <div (click)="followUser(profile, $event)" *ngIf="!profile.followed"
+            class="px-3 py-3 rounded-3xl bg-blue-500 dark:bg-white cursor-pointer">Follow</div>
+        <div (click)="followUser(profile, $event)" *ngIf="profile.followed"
+            class="text-white px-3 py-3 rounded-3xl bg-red-500 cursor-pointer">Unfollow</div>
     </div>
 </div>
