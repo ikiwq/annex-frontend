@@ -1,7 +1,7 @@
 # Annex
 ## Introduction
-Annex is an open source social network inspired by major websites like Facebook and Twitter. 
-This project was meant to empower users by providing them with a platform where they can trust that their data is handled responsibly and ethically.
+Annex is an open-source social network inspired by major websites like Facebook and Twitter. 
+This project was meant to give users a platform where they know how their data is handled with the maximum transparency.
 #### Source code
 This is the frontend repository, and the backend repository can be found [here](https://github.com/ikiwq/new-annex-backend).
 
