@@ -3,7 +3,7 @@
 Annex is an open source social network inspired by major websites like Facebook and Twitter. 
 This project was meant to empower users by providing them with a platform where they can trust that their data is handled responsibly and ethically.
 #### Source code
-This is the frontend repository and the backend Repository can be found [here](https://github.com/ikiwq/new-annex-backend).
+This is the frontend repository, and the backend repository can be found [here](https://github.com/ikiwq/new-annex-backend).
 
 ### Screenshots
 #### Homepage
@@ -58,8 +58,8 @@ To install fortawesome
     npm install @fortawesome/angular-fontawesome
     
 ### Configuration
-In the src/enviroments folder, you'll find two files with the enviromental variables. Both contains a apiURL link that points to the API server.
-If you are using a different IP or PORT to host the API, modify the file like this:
+In the src/enviroments folder, you'll find two files with the environmental variables. Both contain an apiURL link that points to the API server.
+If you are using a different IP or port to host the API, modify the file like this:
 
     export const environment = {
       production: false,
@@ -70,7 +70,7 @@ If you are using a different IP or PORT to host the API, modify the file like th
 Distributed under the MIT License.
 
 ## In depth into the code
-Annex follows a particular type of structure when it comes to handling data. Since every post has an id, and a specific post can be present across multiple pages, the post service has a Behaviour Subject containing all the posts, organized into a map.
+Annex follows a particular type of structure when it comes to handling data. Since every post has an id and a specific post can be present across multiple pages, the post service has a behavior subject containing all the posts, organized into a map.
 
     postStorage = new BehaviorSubject<PostDictionary>({});
 A key (in this case, the id) points to a specific Post.
@@ -80,7 +80,7 @@ A key (in this case, the id) points to a specific Post.
     }
     
 
-Then, the post components have access to the post storage and render posts based on an array of ids. Since the post storage is a map, the time complexity to get the article is O(1) instead of O(n), where n is the number of post currently stored.
+Then, the post components have access to the post storage and render posts based on an array of ids. Since the post storage is a map, the time complexity to get the article is O(1) instead of O(n), where n is the number of posts currently stored.
   
 
 
