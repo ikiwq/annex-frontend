@@ -1,27 +1,39 @@
-# Frontend
+# Annex
+## Introduction
+Annex is an open source social network inspired by major websites like Facebook and Twitter. 
+This project was meant to empower users by providing them with a platform where they can trust that their data is handled responsibly and ethically.
+#### Source code
+This is the frontend repository and the backend Repository can be found [here](https://github.com/ikiwq/new-annex-backend).
+#### Built with
+[![My Skills](https://skillicons.dev/icons?i=angular,typescript,nodejs&theme=light)](https://skillicons.dev)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.8.
+## Getting started
+### Clone the repository
+Clone the repository with
+ 
+    git clone https://github.com/ikiwq/new-annex-frontend/
+    
+### Prerequisites:
+Before running the application, make sure to have all the dependencies installed (Angular and FortAwesome).
+    
+To install Angular:
 
-## Development server
+    npm install -g @angular/cli
+    
+To install fortawesome
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+    npm install @fortawesome/fontawesome-svg-core
+    npm install @fortawesome/free-regular-svg-icons
+    npm install @fortawesome/free-solid-svg-icons
+    npm install @fortawesome/angular-fontawesome
+### Configuration
+In the src/enviroments folder, you'll find two files with the enviromental variables. Both contains a apiURL link that points to the API server.
+If you are using a different IP or PORT to host the API, modify the file like this:
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+    export const environment = {
+      production: false,
+      apiURL: "http://new_url:new_port"
+    };
+   
+## License
+Distributed under the MIT License.
