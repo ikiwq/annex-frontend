@@ -4,28 +4,28 @@ Annex is an open source social network inspired by major websites like Facebook 
 This project was meant to empower users by providing them with a platform where they can trust that their data is handled responsibly and ethically.
 
 ### Screenshots
-### Homepage
+#### Homepage
 
 <picture>
   <source srcset="https://i.imgur.com/SVH7r96.png">
   <img alt="Homepage.">
 </picture>
 
-### Profile page
+#### Profile page
 
 <picture>
   <source srcset="https://i.imgur.com/ETLKc6R.png">
   <img alt="Profile Page.">
 </picture>
 
-### Search page
+#### Search page
 
 <picture>
   <source srcset="https://i.imgur.com/mzjHwXn.png">
   <img alt="Profile Page.">
 </picture>
 
-### Light mode homepage
+#### Light mode homepage
 
 <picture>
   <source srcset="https://i.imgur.com/iNR6rQA.png">
